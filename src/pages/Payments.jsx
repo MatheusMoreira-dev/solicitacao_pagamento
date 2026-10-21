@@ -1,4 +1,5 @@
 import PaymentsList from "../components/PaymentsList";
+import { Input } from "@/components/ui/input";
 
 const payments = [
   {
@@ -16,7 +17,13 @@ const teste = new Array(10).fill(payments[0]);
 
 function Payments() {
   return (
-    <div className="payments max-w-5xl w-full mx-auto">
+    <div className="payments max-w-7xl w-full mx-auto">
+      <Input
+        id="search-input"
+        type="text"
+        placeholder="Pesquisa..."
+        className={"py-5"}
+      ></Input>
       <PaymentsList payments={teste}></PaymentsList>
     </div>
   );
