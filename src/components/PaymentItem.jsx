@@ -13,21 +13,22 @@ function PaymentItem({ prestador, valor, descricao, dataPagamento }) {
 
       <p className="line-clamp-3">{descricao}</p>
 
-      <div className="flex w-full gap-2 mt-3">
+      <div className="flex flex-wrap w-full gap-2 mt-3">
         <Button>
           <Printer></Printer>
-          Imprimir
+          <span className="hidden sm:inline">Imprimir</span>
         </Button>
         <Button variant="secondary">
           <Download></Download>
-          Baixar
+          <span className="hidden sm:inline">Baixar</span>
         </Button>
         <Button variant="tertiary">
           <EyeDashed></EyeDashed>
-          Visualizar
+          <span className="hidden sm:inline">Visualizar</span>
         </Button>
         <Button variant="quaternary">
-          <Repeat></Repeat> Replicar
+          <Repeat></Repeat>
+          <span className="hidden sm:inline">Replicar</span>
         </Button>
       </div>
     </div>
