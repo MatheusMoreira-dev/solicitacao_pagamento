@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
 } from "@/components/ui/dialog";
 
 const payments = [
@@ -43,12 +44,18 @@ function Payments() {
             </Button>
           </DialogTrigger>
 
-          <DialogContent className={"max-w-3xl! w-full!"}>
+          <DialogContent className={"max-w-4xl! w-full!"}>
             <DialogHeader className={"text-primary-text font-bold text-xl"}>
-              Adicionar Item
+              Novo Pagamento
             </DialogHeader>
 
             <PaymentForm></PaymentForm>
+
+            <DialogFooter>
+              <Button variant="outline">Cancelar</Button>
+              <Button variant="secondary">Limpar</Button>
+              <Button className="w-32">Salvar</Button>
+            </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Printer, Download, EyeDashed } from "lucide-react";
+import { Printer, Download, EyeDashed, Repeat } from "lucide-react";
 
 function PaymentItem({ prestador, valor, descricao, dataPagamento }) {
   return (
@@ -22,9 +22,12 @@ function PaymentItem({ prestador, valor, descricao, dataPagamento }) {
           <Download></Download>
           Baixar
         </Button>
-        <Button variant="outline">
+        <Button variant="tertiary">
           <EyeDashed></EyeDashed>
           Visualizar
+        </Button>
+        <Button variant="quaternary">
+          <Repeat></Repeat> Replicar
         </Button>
       </div>
     </div>
