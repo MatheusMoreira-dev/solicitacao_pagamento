@@ -8,6 +8,8 @@ import {
   ComboboxItem,
   ComboboxEmpty,
 } from "@/components/ui/combobox";
+import { Input } from "@/components/ui/input";
+import MoneyInput from "@/components/MoneyInput";
 
 const unidades = [
   { nome: "SEDE", cnpj: "1" },
@@ -29,6 +31,13 @@ const prestadores = [
     cnpj: "111",
     metodosPagamento: {},
   },
+];
+
+const pagamentos = [
+  { nome: "Boleto", valor: "boleto" },
+  { nome: "Cheque", valor: "cheque" },
+  { nome: "Cartão Corporativo", valor: "cartao" },
+  { banco: "Banco do Brasil", agencia: "10223-10" },
 ];
 
 function PaymentForm() {
@@ -115,14 +124,32 @@ function PaymentForm() {
 
       <Field className="col-span-4">
         <FieldLabel>Valor</FieldLabel>
+        <MoneyInput></MoneyInput>
       </Field>
 
       <Field className="col-span-4">
         <FieldLabel>Data de Pagamento</FieldLabel>
+        <Input type="date"></Input>
       </Field>
 
       <Field className="col-span-4">
         <FieldLabel>Método de Pagamento</FieldLabel>
+        <Combobox
+          items={pagamentos}
+          itemToStringLabel={(pagamento) => pagamento.nome}
+        >
+          <ComboboxInput></ComboboxInput>
+          <ComboboxContent>
+            <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
+            <ComboboxList>
+              {(item) => (
+                <ComboboxItem key={item.valor} value={item}>
+                  {item.nome}
+                </ComboboxItem>
+              )}
+            </ComboboxList>
+          </ComboboxContent>
+        </Combobox>
       </Field>
 
       <Field className="col-span-full">

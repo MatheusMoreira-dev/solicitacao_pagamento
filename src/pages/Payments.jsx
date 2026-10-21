@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -45,8 +44,10 @@ function Payments() {
           </DialogTrigger>
 
           <DialogContent className={"max-w-4xl! w-full!"}>
-            <DialogHeader className={"text-primary-text font-bold text-xl"}>
-              Novo Pagamento
+            <DialogHeader>
+              <DialogTitle className="text-primary-text font-bold text-xl">
+                Novo Pagamento
+              </DialogTitle>
             </DialogHeader>
 
             <PaymentForm></PaymentForm>
