@@ -1,4 +1,4 @@
-import ListPayments from "../components/ListPayments";
+import PaymentsList from "../components/PaymentsList";
 
 const payments = [
   {
@@ -12,10 +12,12 @@ const payments = [
   },
 ];
 
+const teste = new Array(10).fill(payments[0]);
+
 function Payments() {
   return (
     <div className="payments max-w-5xl w-full mx-auto">
-      <ListPayments payments={payments}></ListPayments>
+      <PaymentsList payments={teste}></PaymentsList>
     </div>
   );
 }

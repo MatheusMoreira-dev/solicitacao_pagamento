@@ -1,6 +1,6 @@
 function PaymentItem({ prestador, valor, descricao, dataPagamento }) {
   return (
-    <div className="w-full bg-surface rounded-xl shadow-xl p-4 relative ring ring-border hover:ring-2 hover:ring-secondary">
+    <div className="w-full bg-surface rounded-xl shadow-xl p-4 relative ring ring-border cursor-pointer hover:ring-2 hover:ring-secondary hover:scale-105 transition-transform duration-300 hover:z-50">
       <p className="absolute top-4 right-4 text-secondary-text text-sm">
         {dataPagamento}
       </p>
@@ -11,11 +11,11 @@ function PaymentItem({ prestador, valor, descricao, dataPagamento }) {
       <p className="line-clamp-3">{descricao}</p>
 
       <div className="flex w-full gap-2 mt-3">
-        <button className="bg-primary px-3 py-1 text-white rounded-md">
+        <button className="bg-primary px-3 py-1 text-white rounded-md cursor-pointer hover:opacity-70">
           Imprimir
         </button>
 
-        <button className="bg-secondary px-3 py-1 text-white rounded-md">
+        <button className="bg-secondary px-3 py-1 text-white rounded-md cursor-pointer hover:opacity-70">
           Baixar
         </button>
       </div>
