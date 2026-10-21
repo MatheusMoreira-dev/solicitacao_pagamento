@@ -7,7 +7,7 @@ function Header() {
         <div className="flex items-center size-full mx-auto max-w-7xl px-6 ">
           <img src={favicon} alt="" className="object-contain h-full" />
           <h1 className="text-background mx-5 text-base font-bold">
-            Marketing
+            Solicitação de Pagamento
           </h1>
         </div>
       </header>

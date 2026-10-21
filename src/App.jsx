@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 
 function App() {
   return (
-    <div className="bg-background size-full">
+    <div className="bg-background w-full h-dvh overflow-hidden">
       <Home></Home>
     </div>
   );

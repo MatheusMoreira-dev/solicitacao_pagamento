@@ -1,5 +1,15 @@
 import PaymentsList from "../components/PaymentsList";
+import PaymentForm from "@/components/PaymentForm";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const payments = [
   {
@@ -17,13 +27,31 @@ const teste = new Array(10).fill(payments[0]);
 
 function Payments() {
   return (
-    <div className="payments max-w-7xl w-full mx-auto">
-      <Input
-        id="search-input"
-        type="text"
-        placeholder="Pesquisa..."
-        className={"py-5"}
-      ></Input>
+    <div className="w-full max-w-7xl mx-auto flex min-h-0 flex-1 flex-col">
+      <div className="px-8 pb-2 flex w-full items-center gap-3 justify-between">
+        <Input
+          id="search-input"
+          type="text"
+          placeholder="Pesquisa..."
+          className={"py-5 max-w-3xl shadow-md"}
+        ></Input>
+
+        <Dialog>
+          <DialogTrigger>
+            <Button size="lg" className={"shadow-md"}>
+              Novo Pagamento
+            </Button>
+          </DialogTrigger>
+
+          <DialogContent className={"max-w-3xl! w-full!"}>
+            <DialogHeader className={"text-primary-text font-bold text-xl"}>
+              Adicionar Item
+            </DialogHeader>
+
+            <PaymentForm></PaymentForm>
+          </DialogContent>
+        </Dialog>
+      </div>
       <PaymentsList payments={teste}></PaymentsList>
     </div>
   );
