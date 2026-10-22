@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/dialog";
 
 import { PlusIcon } from "lucide-react";
-import FloatingNavbar from "@/components/smoothui/floating-navbar";
+import PaymentSheet from "@/components/PaymentSheet";
+import { useState } from "react";
 
 const payments = [
   {
@@ -56,13 +57,15 @@ const pagamentos = [
   { banco: "Banco do Brasil", agencia: "10223-10" },
 ];
 
-const sections = [
-  { id: "features", label: "Features", href: "#features" },
-  { id: "pricing", label: "Pricing", href: "#pricing" },
-  { id: "faq", label: "FAQ", href: "#faq" },
-];
-
 function Payments() {
+  const [selectedPayment, setSelectedPayment] = useState(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+
+  function handleSheetOpen(payment) {
+    setSelectedPayment(payment);
+    setSheetOpen(true);
+  }
+
   return (
     <div className="w-full max-w-7xl mx-auto flex min-h-0 flex-1 flex-col">
       <div className="px-8 pb-2 flex w-full items-center gap-3 justify-between">
@@ -94,9 +97,16 @@ function Payments() {
           </DialogContent>
         </Dialog>
       </div>
-      <PaymentsList payments={teste}></PaymentsList>
+      <PaymentsList
+        onSelectPayment={handleSheetOpen}
+        payments={teste}
+      ></PaymentsList>
 
-      <FloatingNavbar items={sections}></FloatingNavbar>
+      <PaymentSheet
+        payment={selectedPayment}
+        open={sheetOpen}
+        onOpenChange={setSheetOpen}
+      ></PaymentSheet>
     </div>
   );
 }

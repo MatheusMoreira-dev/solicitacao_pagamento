@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Printer, Download, EyeDashed, Repeat } from "lucide-react";
 
-function PaymentItem({ prestador, valor, descricao, dataPagamento }) {
+function PaymentItem({ prestador, valor, descricao, dataPagamento, onClick }) {
   return (
-    <div className="w-full bg-surface rounded-xl shadow-xl p-4 relative ring ring-border cursor-pointer hover:ring-2 hover:ring-secondary hover:scale-105 transition-transform duration-300 hover:z-25">
+    <div
+      onClick={onClick}
+      className="w-full bg-surface rounded-xl shadow-xl p-4 relative ring ring-border cursor-pointer hover:ring-2 hover:ring-secondary hover:scale-105 transition-transform duration-300 hover:z-25"
+    >
       <p className="absolute top-4 right-4 text-secondary-text text-sm">
         {dataPagamento}
       </p>
