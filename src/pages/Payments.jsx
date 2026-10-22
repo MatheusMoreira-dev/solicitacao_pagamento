@@ -8,8 +8,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogFooter,
 } from "@/components/ui/dialog";
+
+import { PlusIcon } from "lucide-react";
+import FloatingNavbar from "@/components/smoothui/floating-navbar";
 
 const payments = [
   {
@@ -25,6 +27,41 @@ const payments = [
 
 const teste = new Array(10).fill(payments[0]);
 
+const unidades = [
+  { nome: "SEDE", cnpj: "1" },
+  { nome: "HUC", cnpj: "2" },
+  { nome: "NAS", cnpj: "3" },
+  { nome: "LAGOA", cnpj: "4" },
+];
+
+const soliciantes = [
+  { nome: "Matheus Moreira Marcelino", ramal: 2018, setor: "Marketing" },
+];
+
+const setores = [{ nome: "Marketing", unidade: "SEDE", ramal: 2018 }];
+
+const prestadores = [
+  {
+    nomeFantasia: "BSG",
+    razaoSocial: "Sublime",
+    cnpj: "111",
+    metodosPagamento: {},
+  },
+];
+
+const pagamentos = [
+  { nome: "Boleto", valor: "boleto" },
+  { nome: "Cheque", valor: "cheque" },
+  { nome: "Cartão Corporativo", valor: "cartao" },
+  { banco: "Banco do Brasil", agencia: "10223-10" },
+];
+
+const sections = [
+  { id: "features", label: "Features", href: "#features" },
+  { id: "pricing", label: "Pricing", href: "#pricing" },
+  { id: "faq", label: "FAQ", href: "#faq" },
+];
+
 function Payments() {
   return (
     <div className="w-full max-w-7xl mx-auto flex min-h-0 flex-1 flex-col">
@@ -39,7 +76,8 @@ function Payments() {
         <Dialog>
           <DialogTrigger>
             <Button size="lg" className={"shadow-md"}>
-              Novo Pagamento
+              <PlusIcon></PlusIcon>
+              <span className="hidden md:inline">Novo Pagamento</span>
             </Button>
           </DialogTrigger>
 
@@ -50,17 +88,15 @@ function Payments() {
               </DialogTitle>
             </DialogHeader>
 
-            <PaymentForm></PaymentForm>
-
-            <DialogFooter>
-              <Button variant="outline">Cancelar</Button>
-              <Button variant="secondary">Limpar</Button>
-              <Button className="w-32">Salvar</Button>
-            </DialogFooter>
+            <PaymentForm
+              {...{ unidades, soliciantes, setores, prestadores, pagamentos }}
+            ></PaymentForm>
           </DialogContent>
         </Dialog>
       </div>
       <PaymentsList payments={teste}></PaymentsList>
+
+      <FloatingNavbar items={sections}></FloatingNavbar>
     </div>
   );
 }

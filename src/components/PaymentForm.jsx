@@ -10,46 +10,41 @@ import {
 } from "@/components/ui/combobox";
 import { Input } from "@/components/ui/input";
 import MoneyInput from "@/components/MoneyInput";
+import { Button } from "@/components/ui/button";
+import { useForm } from "react-hook-form";
 
-const unidades = [
-  { nome: "SEDE", cnpj: "1" },
-  { nome: "HUC", cnpj: "2" },
-  { nome: "NAS", cnpj: "3" },
-  { nome: "LAGOA", cnpj: "4" },
-];
+function PaymentForm({
+  unidades,
+  soliciantes,
+  setores,
+  prestadores,
+  pagamentos,
+}) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-const soliciantes = [
-  { nome: "Matheus Moreira Marcelino", ramal: 2018, setor: "Marketing" },
-];
+  function submit(data) {
+    console.log(data);
+  }
 
-const setores = [{ nome: "Marketing", unidade: "SEDE", ramal: 2018 }];
-
-const prestadores = [
-  {
-    nomeFantasia: "BSG",
-    razaoSocial: "Sublime",
-    cnpj: "111",
-    metodosPagamento: {},
-  },
-];
-
-const pagamentos = [
-  { nome: "Boleto", valor: "boleto" },
-  { nome: "Cheque", valor: "cheque" },
-  { nome: "Cartão Corporativo", valor: "cartao" },
-  { banco: "Banco do Brasil", agencia: "10223-10" },
-];
-
-function PaymentForm() {
   return (
-    <form className="w-full min-w-0 grid grid-cols-12 gap-4 gap-y-6">
-      <Field className="col-span-3">
+    <form
+      onSubmit={handleSubmit(submit)}
+      className="w-full min-w-0 grid grid-cols-12 gap-4 gap-y-6"
+    >
+      <Field className="col-span-3 relative">
         <FieldLabel>Unidade</FieldLabel>
         <Combobox
           items={unidades}
           itemToStringLabel={(unidade) => unidade.nome}
         >
-          <ComboboxInput placeholder="Selecione uma Unidade"></ComboboxInput>
+          <ComboboxInput
+            {...register("unidade", { required: "A unidade é obrigatória" })}
+            placeholder="Selecione uma Unidade"
+          ></ComboboxInput>
           <ComboboxContent>
             <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
             <ComboboxList>
@@ -61,12 +56,17 @@ function PaymentForm() {
             </ComboboxList>
           </ComboboxContent>
         </Combobox>
+
+        {errors.unidade && <p>{errors.unidade.message}</p>}
       </Field>
 
       <Field className="col-span-4">
         <FieldLabel>Setor</FieldLabel>
         <Combobox items={setores} itemToStringLabel={(setor) => setor.nome}>
-          <ComboboxInput placeholder="Selecione um setor"></ComboboxInput>
+          <ComboboxInput
+            {...register("setor", { required: "O setor é obrigatório" })}
+            placeholder="Selecione um setor"
+          ></ComboboxInput>
           <ComboboxContent>
             <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
             <ComboboxList>
@@ -78,6 +78,8 @@ function PaymentForm() {
             </ComboboxList>
           </ComboboxContent>
         </Combobox>
+
+        {errors.setor && <p>{errors.setor.message}</p>}
       </Field>
 
       <Field className="col-span-5">
@@ -86,7 +88,12 @@ function PaymentForm() {
           items={soliciantes}
           itemToStringLabel={(solicitante) => solicitante.nome}
         >
-          <ComboboxInput placeholder="Selecione o nome do solicitante"></ComboboxInput>
+          <ComboboxInput
+            {...register("solicitante", {
+              required: "O nome do solicitante é obrigatório",
+            })}
+            placeholder="Selecione o nome do solicitante"
+          ></ComboboxInput>
           <ComboboxContent>
             <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
             <ComboboxList>
@@ -98,6 +105,8 @@ function PaymentForm() {
             </ComboboxList>
           </ComboboxContent>
         </Combobox>
+
+        {errors.soliciante && <p>{errors.soliciante.message}</p>}
       </Field>
 
       <Field className="col-span-full">
@@ -108,7 +117,10 @@ function PaymentForm() {
             prestadores.razaoSocial + " - " + prestadores.nomeFantasia
           }
         >
-          <ComboboxInput placeholder="Selecione o nome do solicitante"></ComboboxInput>
+          <ComboboxInput
+            {...register("prestador", { required: "Campo obrigatório!" })}
+            placeholder="Selecione o nome do solicitante"
+          ></ComboboxInput>
           <ComboboxContent>
             <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
             <ComboboxList>
@@ -120,11 +132,17 @@ function PaymentForm() {
             </ComboboxList>
           </ComboboxContent>
         </Combobox>
+
+        {errors.prestador && <p>{errors.prestador.message}</p>}
       </Field>
 
       <Field className="col-span-4">
         <FieldLabel>Valor</FieldLabel>
-        <MoneyInput></MoneyInput>
+        <MoneyInput
+          {...register("valor", { required: "Campo obrigatório!" })}
+        ></MoneyInput>
+
+        {errors.valor && <p>{errors.valor.message}</p>}
       </Field>
 
       <Field className="col-span-4">
@@ -160,6 +178,14 @@ function PaymentForm() {
           className="resize-none h-24"
         ></Textarea>
       </Field>
+
+      <div className="col-span-full flex justify-end gap-2">
+        <Button variant="outline">Cancelar</Button>
+        <Button variant="secondary">Limpar</Button>
+        <Button type="submit" className="w-32">
+          Salvar
+        </Button>
+      </div>
     </form>
   );
 }
