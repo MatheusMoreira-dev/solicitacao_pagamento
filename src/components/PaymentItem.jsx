@@ -8,14 +8,14 @@ function PaymentItem({ prestador, valor, descricao, dataPagamento, onClick }) {
       onClick={onClick}
       className="w-full bg-surface rounded-xl shadow-xl py-4 px-6 relative ring ring-border cursor-pointer hover:ring-2 hover:ring-secondary hover:scale-105 transition-transform duration-300 hover:z-25"
     >
-      <p className="absolute top-4 right-4 text-secondary-text text-xs">
+      <p className="absolute top-4 right-4 text-secondary-text text-sm">
         {dataPagamento}
       </p>
 
-      <p className="font-bold text-xl mb-1 text-primary-text">{prestador}</p>
-      <p className="text-primary-text mb-2 text-xs">{formatMoney(valor)}</p>
+      <p className="font-bold mb-1 text-primary-text">{prestador}</p>
+      <p className="text-primary-text mb-2 text-sm">{formatMoney(valor)}</p>
 
-      <p className="line-clamp-2 text-secondary-text text-sm">{descricao}</p>
+      <p className="line-clamp-2 text-secondary-text text-xs">{descricao}</p>
 
       <div className="flex flex-wrap w-full gap-2 mt-3">
         <Button>
