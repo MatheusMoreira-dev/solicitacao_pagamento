@@ -21,8 +21,22 @@ const payments = [
     descricao: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident maxime
       eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
       Reiciendis omnis tempora maiores atque illo corporis culpa nihil iusto
+      debitis! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident maxime
+      eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
+      Reiciendis omnis tempora maiores atque illo corporis culpa nihil iusto
+      debitis!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident maxime
+      eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
+      Reiciendis omnis tempora maiores atque illo corporis culpa nihil iusto
+      debitis!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident maxime
+      eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
+      Reiciendis omnis tempora maiores atque illo corporis culpa nihil iusto
       debitis!`,
     dataPagamento: "2026-10-12",
+    metodoPagamento: { tipo: "Boleto" },
+    dataSolicitacao: "2026-10-01",
+    unidade: "SEDE",
+    setor: "Marketing",
+    solicitante: "Matheus Moreira Marcelino",
   },
 ];
 

@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-
-// Converte em texto no formato de dinheiro
-const formatMoney = (value, format = "pt-BR", currency = "BRL") => {
-  return new Intl.NumberFormat(format, { style: "currency", currency }).format(
-    value,
-  );
-};
+import { formatMoney } from "@/services/utils";
 
 function MoneyInput({ value, onChange, ...props }) {
   const [texto, setTexto] = useState(
