@@ -70,7 +70,10 @@
   --color-btn-sheen: var(--btn-sheen, rgb(255 255 255 / 0.2));
   --color-destructive-edge: var(--destructive-edge, #f61418);
   --color-destructive-fg: var(--destructive-fg, #fff);
-  --color-destructive-hover: var(--destructive-hover, color-mix(in oklab, var(--color-destructive) 85%, black));
+  --color-destructive-hover: var(
+    --destructive-hover,
+    color-mix(in oklab, var(--color-destructive) 85%, black)
+  );
   --color-destructive-top: var(--destructive-top, #fd4b4e);
   --color-on-brand: var(--on-brand, #fff);
   --color-amber: var(--amber);
@@ -262,5 +265,5 @@
 }
 
 @utility state-transition {
-    @apply transition-[background-color,border-color,color,box-shadow] duration-150 ease-out motion-reduce:transition-none;
+  @apply transition-[background-color,border-color,color,box-shadow] duration-150 ease-out motion-reduce:transition-none;
 }

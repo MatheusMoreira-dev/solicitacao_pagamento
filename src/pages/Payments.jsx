@@ -81,7 +81,7 @@ function Payments() {
   }
 
   return (
-    <div className="w-full max-w-7xl mx-auto flex min-h-0 flex-1 flex-col">
+    <div className="flex min-h-0 flex-1 flex-col">
       <div className="px-8 pb-2 flex w-full items-center gap-3 justify-between">
         <Input
           id="search-input"
@@ -111,6 +111,7 @@ function Payments() {
           </DialogContent>
         </Dialog>
       </div>
+
       <PaymentsList
         onSelectPayment={handleSheetOpen}
         payments={teste}
