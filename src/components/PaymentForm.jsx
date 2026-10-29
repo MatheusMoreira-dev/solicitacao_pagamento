@@ -11,20 +11,29 @@ import {
 import { Input } from "@/components/ui/input";
 import MoneyInput from "@/components/MoneyInput";
 import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import { useEffect } from "react";
 
-function PaymentForm({
-  unidades,
-  soliciantes,
-  setores,
-  prestadores,
-  pagamentos,
-}) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+function PaymentForm({ selectOptions = {}, initialData = {} }) {
+  const emptyValues = {
+    unidade: null,
+    setor: null,
+    solicitante: null,
+    prestador: null,
+    valor: "",
+    dataPagamento: "",
+    metodoPagamento: null,
+    descricao: "",
+  };
+
+  const { handleSubmit, control, reset } = useForm({
+    defaultValues: emptyValues,
+  });
+
+  // Adiciona os dados iniciais nos campos do form
+  useEffect(() => {
+    reset({ ...emptyValues, ...initialData });
+  }, []);
 
   function submit(data) {
     console.log(data);
@@ -35,149 +44,182 @@ function PaymentForm({
       onSubmit={handleSubmit(submit)}
       className="w-full min-w-0 grid grid-cols-12 gap-4 gap-y-6"
     >
-      <Field className="col-span-3 relative">
-        <FieldLabel>Unidade</FieldLabel>
-        <Combobox
-          items={unidades}
-          itemToStringLabel={(unidade) => unidade.nome}
-        >
-          <ComboboxInput
-            {...register("unidade", { required: "A unidade é obrigatória" })}
-            placeholder="Selecione uma Unidade"
-          ></ComboboxInput>
-          <ComboboxContent>
-            <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
-            <ComboboxList>
-              {(item) => (
-                <ComboboxItem key={item.cnpj} value={item}>
-                  {item.nome}
-                </ComboboxItem>
-              )}
-            </ComboboxList>
-          </ComboboxContent>
-        </Combobox>
+      <Controller
+        name="unidade"
+        rules={{ required: true, validate: () => {} }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field className="col-span-3 relative">
+            <FieldLabel>Unidade</FieldLabel>
+            <Combobox
+              {...field}
+              value={field.value}
+              onValueChange={field.onChange}
+              items={selectOptions?.unidades || []}
+              itemToStringLabel={(item) => item?.nome ?? ""}
+            >
+              <ComboboxInput placeholder="Selecione uma Unidade"></ComboboxInput>
+              <ComboboxContent>
+                <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
+                <ComboboxList>
+                  {(item) => (
+                    <ComboboxItem key={item.cnpj} value={item}>
+                      {item.nome}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+          </Field>
+        )}
+      />
 
-        {errors.unidade && <p>{errors.unidade.message}</p>}
-      </Field>
+      <Controller
+        name="setor"
+        rules={{ required: true, validate: () => {} }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field className="col-span-4">
+            <FieldLabel>Setor</FieldLabel>
+            <Combobox {...field} items={selectOptions?.setores}>
+              <ComboboxInput placeholder="Selecione um setor"></ComboboxInput>
+              <ComboboxContent>
+                <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
+                <ComboboxList>
+                  {(item) => (
+                    <ComboboxItem key={item.nome + item.unidade} value={item}>
+                      {item.nome}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+          </Field>
+        )}
+      />
 
-      <Field className="col-span-4">
-        <FieldLabel>Setor</FieldLabel>
-        <Combobox items={setores} itemToStringLabel={(setor) => setor.nome}>
-          <ComboboxInput
-            {...register("setor", { required: "O setor é obrigatório" })}
-            placeholder="Selecione um setor"
-          ></ComboboxInput>
-          <ComboboxContent>
-            <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
-            <ComboboxList>
-              {(item) => (
-                <ComboboxItem key={item.nome + item.unidade} value={item}>
-                  {item.nome}
-                </ComboboxItem>
-              )}
-            </ComboboxList>
-          </ComboboxContent>
-        </Combobox>
+      <Controller
+        name="solicitante"
+        rules={{ required: true, validate: () => {} }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field className="col-span-5">
+            <FieldLabel>Solicitante</FieldLabel>
 
-        {errors.setor && <p>{errors.setor.message}</p>}
-      </Field>
+            <Combobox {...field} items={selectOptions?.soliciantes}>
+              <ComboboxInput placeholder="Selecione o nome do solicitante"></ComboboxInput>
 
-      <Field className="col-span-5">
-        <FieldLabel>Solicitante</FieldLabel>
-        <Combobox
-          items={soliciantes}
-          itemToStringLabel={(solicitante) => solicitante.nome}
-        >
-          <ComboboxInput
-            {...register("solicitante", {
-              required: "O nome do solicitante é obrigatório",
-            })}
-            placeholder="Selecione o nome do solicitante"
-          ></ComboboxInput>
-          <ComboboxContent>
-            <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
-            <ComboboxList>
-              {(item) => (
-                <ComboboxItem key={item.nome} value={item}>
-                  {item.nome}
-                </ComboboxItem>
-              )}
-            </ComboboxList>
-          </ComboboxContent>
-        </Combobox>
+              <ComboboxContent>
+                <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
+                <ComboboxList>
+                  {(item) => (
+                    <ComboboxItem key={item.nome} value={item}>
+                      {item.nome}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+          </Field>
+        )}
+      />
 
-        {errors.soliciante && <p>{errors.soliciante.message}</p>}
-      </Field>
+      <Controller
+        name="prestador"
+        rules={{ required: true, validate: () => {} }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field className="col-span-full">
+            <FieldLabel>Prestador</FieldLabel>
+            <Combobox
+              {...field}
+              items={selectOptions?.prestadores}
+              itemToStringLabel={(prestadores) =>
+                prestadores.razaoSocial + " - " + prestadores.nomeFantasia
+              }
+            >
+              <ComboboxInput placeholder="Selecione o nome do solicitante"></ComboboxInput>
 
-      <Field className="col-span-full">
-        <FieldLabel>Prestador</FieldLabel>
-        <Combobox
-          items={prestadores}
-          itemToStringLabel={(prestadores) =>
-            prestadores.razaoSocial + " - " + prestadores.nomeFantasia
-          }
-        >
-          <ComboboxInput
-            {...register("prestador", { required: "Campo obrigatório!" })}
-            placeholder="Selecione o nome do solicitante"
-          ></ComboboxInput>
-          <ComboboxContent>
-            <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
-            <ComboboxList>
-              {(item) => (
-                <ComboboxItem key={item.cnpj} value={item}>
-                  {item.razaoSocial + " - " + item.nomeFantasia}
-                </ComboboxItem>
-              )}
-            </ComboboxList>
-          </ComboboxContent>
-        </Combobox>
+              <ComboboxContent>
+                <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
+                <ComboboxList>
+                  {(item) => (
+                    <ComboboxItem key={item.cnpj} value={item}>
+                      {item.razaoSocial + " - " + item.nomeFantasia}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+          </Field>
+        )}
+      />
 
-        {errors.prestador && <p>{errors.prestador.message}</p>}
-      </Field>
+      <Controller
+        name="valor"
+        rules={{ required: true, validate: () => {} }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field className="col-span-4">
+            <FieldLabel>Valor</FieldLabel>
+            <MoneyInput
+              {...field}
+              value={field.value}
+              onChange={field.onChange}
+            ></MoneyInput>
+          </Field>
+        )}
+      />
 
-      <Field className="col-span-4">
-        <FieldLabel>Valor</FieldLabel>
-        <MoneyInput
-          {...register("valor", { required: "Campo obrigatório!" })}
-        ></MoneyInput>
+      <Controller
+        name="dataPagamento"
+        rules={{ required: true, validate: () => {} }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field className="col-span-4">
+            <FieldLabel>Data de Pagamento</FieldLabel>
+            <Input {...field} type="date"></Input>
+          </Field>
+        )}
+      />
 
-        {errors.valor && <p>{errors.valor.message}</p>}
-      </Field>
+      <Controller
+        name="metodoPagamento"
+        rules={{ required: true, validate: () => {} }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field className="col-span-4">
+            <FieldLabel>Método de Pagamento</FieldLabel>
+            <Combobox {...field} items={selectOptions?.metodosPagamentos}>
+              <ComboboxInput></ComboboxInput>
 
-      <Field className="col-span-4">
-        <FieldLabel>Data de Pagamento</FieldLabel>
-        <Input type="date"></Input>
-      </Field>
+              <ComboboxContent>
+                <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
 
-      <Field className="col-span-4">
-        <FieldLabel>Método de Pagamento</FieldLabel>
-        <Combobox
-          items={pagamentos}
-          itemToStringLabel={(pagamento) => pagamento.nome}
-        >
-          <ComboboxInput></ComboboxInput>
-          <ComboboxContent>
-            <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
-            <ComboboxList>
-              {(item) => (
-                <ComboboxItem key={item.valor} value={item}>
-                  {item.nome}
-                </ComboboxItem>
-              )}
-            </ComboboxList>
-          </ComboboxContent>
-        </Combobox>
-      </Field>
+                <ComboboxList>
+                  {(item) => (
+                    <ComboboxItem key={item.valor} value={item}>
+                      {item.nome}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+              </ComboboxContent>
+            </Combobox>
+          </Field>
+        )}
+      />
 
-      <Field className="col-span-full">
-        <FieldLabel htmlFor="descricao">Descrição</FieldLabel>
-        <Textarea
-          id="descricao"
-          name="descricao"
-          className="resize-none h-24"
-        ></Textarea>
-      </Field>
+      <Controller
+        name="descricao"
+        rules={{ required: true, validate: () => {} }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field className="col-span-full">
+            <FieldLabel>Descrição</FieldLabel>
+            <Textarea {...field} className="resize-none h-24"></Textarea>
+          </Field>
+        )}
+      />
 
       <div className="col-span-full flex justify-end gap-2">
         <Button variant="outline">Cancelar</Button>

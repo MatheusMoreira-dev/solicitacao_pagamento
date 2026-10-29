@@ -106,7 +106,13 @@ function Payments() {
             </DialogHeader>
 
             <PaymentForm
-              {...{ unidades, soliciantes, setores, prestadores, pagamentos }}
+              selectOptions={{
+                unidades,
+                soliciantes,
+                setores,
+                prestadores,
+                pagamentos,
+              }}
             ></PaymentForm>
           </DialogContent>
         </Dialog>
