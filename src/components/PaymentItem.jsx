@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Printer, Download, EyeDashed, Repeat } from "lucide-react";
-import { formatMoney } from "@/services/utils";
+import { Printer, Download, Repeat } from "lucide-react";
+import { formatarMoedaPTBR } from "@/services/utils";
 
 function PaymentItem({ payment, onClick, handleRepeatAction }) {
   function handleAction(e, callback, ...args) {
@@ -26,10 +26,14 @@ function PaymentItem({ payment, onClick, handleRepeatAction }) {
       </p>
 
       <p className="font-bold mb-1 text-primary-text">
-        {payment?.prestador || ""}
+        {payment.prestador?.nomeFantasia
+          ? payment.prestador?.razaoSocial +
+            " - " +
+            payment.prestador.nomeFantasia
+          : payment.prestador?.razaoSocial || ""}
       </p>
       <p className="text-primary-text mb-2 text-sm">
-        {formatMoney(payment?.valor || "")}
+        {formatarMoedaPTBR(payment?.valor || 0)}
       </p>
 
       <p className="line-clamp-2 text-secondary-text text-xs">

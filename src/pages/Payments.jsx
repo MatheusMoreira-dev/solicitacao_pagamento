@@ -16,7 +16,7 @@ import { useState } from "react";
 
 const payments = [
   {
-    prestador: "Matheus",
+    prestador: { razaoSocial: "Matheus", nomeFantasia: "Fantasia" },
     valor: 1201,
     descricao: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident maxime
       eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
@@ -74,6 +74,7 @@ const metodosPagamento = [
 ];
 
 function Payments() {
+  const [repeat, setRepeat] = useState(false);
   const [payment, setPayment] = useState(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
@@ -84,8 +85,9 @@ function Payments() {
   }
 
   function handleCancelForm() {
-    setPayment(null);
     setFormOpen(false);
+    setPayment(null);
+    setRepeat(false);
   }
 
   function handleAddForm() {
@@ -101,11 +103,21 @@ function Payments() {
     }
 
     setFormOpen(false);
+    setRepeat(false);
   }
 
   function handleRepeatAction(payment) {
     setPayment(payment);
     setFormOpen(true);
+    setRepeat(true);
+  }
+
+  function handleFormOpen(open) {
+    if (!open) {
+      handleCancelForm();
+    } else {
+      setFormOpen(true);
+    }
   }
 
   return (
@@ -138,11 +150,15 @@ function Payments() {
       ></PaymentSheet>
 
       {/*Form do pagamento*/}
-      <Dialog open={formOpen} onOpenChange={setFormOpen}>
+      <Dialog open={formOpen} onOpenChange={handleFormOpen}>
         <DialogContent className={"max-w-4xl! w-full!"}>
           <DialogHeader>
             <DialogTitle className="text-primary-text font-bold text-xl">
-              {payment ? "Novo Pagamento" : "Editar Pagamento"}
+              {repeat
+                ? "Replicar Pagamento"
+                : payment
+                  ? "Editar Pagamento"
+                  : "Novo Pagamento"}
             </DialogTitle>
           </DialogHeader>
 

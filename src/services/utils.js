@@ -7,4 +7,4 @@ function formatarMoedaPTBR(centavos, format = "pt-BR", currency = "BRL") {
   return `R$ ${reais.replace(/\B(?=(\d{3})+(?!\d))/g, ".")},${decimais}`;
 }
 
-export { formatarMoedaPTBR as formatMoney };
+export { formatarMoedaPTBR };

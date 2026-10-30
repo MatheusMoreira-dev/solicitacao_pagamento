@@ -160,7 +160,9 @@ function PaymentForm({
                 <ComboboxList>
                   {(item) => (
                     <ComboboxItem key={item.cnpj} value={item}>
-                      {item.razaoSocial + " - " + item.nomeFantasia}
+                      {item?.nomeFantasia
+                        ? item.razaoSocial + " - " + item.nomeFantasia
+                        : item.razaoSocial}
                     </ComboboxItem>
                   )}
                 </ComboboxList>

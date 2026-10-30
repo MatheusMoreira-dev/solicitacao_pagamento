@@ -19,7 +19,7 @@ function PaymentSheet({ payment, open, onOpenChange }) {
             <SheetTitle>Detalhes</SheetTitle>
           </SheetHeader>
 
-          {payment && <PaymentDetails {...payment}></PaymentDetails>}
+          {payment && <PaymentDetails payment={payment}></PaymentDetails>}
         </SheetContent>
       </Sheet>
     </div>

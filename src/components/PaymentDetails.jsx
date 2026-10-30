@@ -1,19 +1,9 @@
-import { formatMoney } from "@/services/utils";
+import { formatarMoedaPTBR } from "@/services/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Printer, Download, Repeat, Edit, Trash2 } from "lucide-react";
 
-function PaymentDetails({
-  dataSolicitacao,
-  unidade,
-  setor,
-  solicitante,
-  prestador,
-  valor,
-  descricao,
-  dataPagamento,
-  metodoPagamento,
-}) {
+function PaymentDetails({ payment }) {
   return (
     <div className="px-4">
       <div>
@@ -46,32 +36,38 @@ function PaymentDetails({
       <Separator className="my-3" />
 
       <div>
-        <p className="text-sm text-secondary-text mb-1">{dataPagamento}</p>
+        <p className="text-sm text-secondary-text mb-1">
+          {payment.dataPagamento}
+        </p>
         <h1 className="text-xl font-bold line-clamp-1 text-primary-text">
-          {prestador}
+          {payment.prestador?.nomeFantasia
+            ? payment.prestador?.razaoSocial +
+              " - " +
+              payment.prestador.nomeFantasia
+            : payment.prestador?.razaoSocial || ""}
         </h1>
-        <p>{formatMoney(valor)}</p>
+        <p>{formatarMoedaPTBR(payment.valor)}</p>
 
         <p className="mt-3 max-h-32 overflow-y-auto scrollbar-thin scrollbar-thumb-tertiary">
-          {descricao}
+          {payment.descricao}
         </p>
 
         <div className="grid gap-1 mt-6">
           <div className="flex gap-2">
             <span className="text-secondary-text">Solicitação:</span>
-            <p className="text-primary-text">{dataSolicitacao}</p>
+            <p className="text-primary-text">{payment.dataSolicitacao}</p>
           </div>
           <div className="flex gap-2">
             <span className="text-secondary-text">Unidade:</span>
-            <p className="text-primary-text">{unidade}</p>
+            <p className="text-primary-text">{payment.unidade.nome}</p>
           </div>
           <div className="flex gap-2">
             <span className="text-secondary-text">Setor:</span>
-            <p className="text-primary-text">{setor}</p>
+            <p className="text-primary-text">{payment.setor.nome}</p>
           </div>
           <div className="flex gap-2">
             <span className="text-secondary-text">Solicitante:</span>
-            <p className="text-primary-text">{solicitante}</p>
+            <p className="text-primary-text">{payment.solicitante.nome}</p>
           </div>
         </div>
       </div>
