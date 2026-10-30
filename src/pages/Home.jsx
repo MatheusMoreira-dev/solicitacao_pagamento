@@ -7,18 +7,20 @@ import { CircleDollarSign, UsersRoundCollaboration } from "lucide-react";
 function Home() {
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <Header></Header>
+      <Header />
+
       <Tabs
         defaultValue="payments"
         className="w-full max-w-7xl mx-auto flex min-h-0 flex-1 flex-col"
       >
-        <TabsList variant="line" className="px-8 my-2 bg-background">
-          <TabsTrigger value="payments">
-            <CircleDollarSign></CircleDollarSign> <span>Pagamentos</span>
+        <TabsList className="px-8 bg-background">
+          <TabsTrigger value="payments" className="cursor-pointer">
+            <CircleDollarSign /> Pagamentos
           </TabsTrigger>
-          <TabsTrigger value="serviceProviders">
-            <UsersRoundCollaboration></UsersRoundCollaboration>
-            <span>Prestadores</span>
+
+          <TabsTrigger value="serviceProviders" className="cursor-pointer">
+            <UsersRoundCollaboration />
+            Prestadores
           </TabsTrigger>
         </TabsList>
 

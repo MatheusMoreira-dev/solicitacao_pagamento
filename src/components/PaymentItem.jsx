@@ -23,7 +23,7 @@ function PaymentItem({ payment, onClick, handleRepeatAction }) {
   return (
     <div
       onClick={onClick}
-      className="w-full bg-surface rounded-xl shadow-xl py-4 px-6 relative ring ring-border cursor-pointer hover:ring-2 hover:ring-secondary hover:scale-105 transition-transform duration-300 hover:z-25"
+      className="w-full bg-surface rounded-xl shadow-xl py-4 px-6 relative ring ring-border cursor-pointer hover:ring-2 hover:ring-secondary hover:scale-105 transition-transform duration-300 hover:z-25 hover:shadow-2xl"
     >
       <p className="absolute top-4 right-4 text-secondary-text text-sm">
         {payment?.dataPagamento || ""}
@@ -44,10 +44,12 @@ function PaymentItem({ payment, onClick, handleRepeatAction }) {
         {payment?.descricao || ""}
       </p>
 
-      <div className="flex flex-wrap w-full gap-2 mt-3">
-        <Button onClick={(e) => handleAction(e, handlePrint)}>
+      <div className="flex justify-end flex-wrap w-full gap-2 mt-3">
+        <Button
+          variant="tertiary"
+          onClick={(e) => handleAction(e, handlePrint)}
+        >
           <Printer></Printer>
-          <span className="hidden sm:inline">Imprimir</span>
         </Button>
 
         <Button
@@ -55,15 +57,10 @@ function PaymentItem({ payment, onClick, handleRepeatAction }) {
           onClick={(e) => handleAction(e, handleDownload)}
         >
           <Download></Download>
-          <span className="hidden sm:inline">Baixar</span>
         </Button>
 
-        <Button
-          variant="quaternary"
-          onClick={(e) => handleAction(e, handleRepeatAction, payment)}
-        >
+        <Button onClick={(e) => handleAction(e, handleRepeatAction, payment)}>
           <Repeat></Repeat>
-          <span className="hidden sm:inline">Replicar</span>
         </Button>
       </div>
 

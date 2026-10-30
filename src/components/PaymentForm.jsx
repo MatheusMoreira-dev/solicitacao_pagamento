@@ -118,7 +118,7 @@ function PaymentForm({
               value={field.value}
               onValueChange={field.onChange}
               itemToStringLabel={(item) => item?.nome ?? ""}
-              items={selectOptions?.soliciantes}
+              items={selectOptions?.solicitantes}
             >
               <ComboboxInput placeholder="Selecione o nome do solicitante"></ComboboxInput>
 

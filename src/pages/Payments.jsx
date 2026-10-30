@@ -13,6 +13,7 @@ import {
 import { PlusIcon } from "lucide-react";
 import PaymentSheet from "@/components/PaymentSheet";
 import { useState } from "react";
+import { batchFormData } from "@/services/api";
 
 const payments = [
   {
@@ -47,35 +48,6 @@ const payments = [
 const teste = new Array(10)
   .fill(payments[0])
   .map((v) => ({ ...v, id: crypto.randomUUID() }));
-
-const unidades = [
-  { nome: "SEDE", cnpj: "1" },
-  { nome: "HUC", cnpj: "2" },
-  { nome: "NAS", cnpj: "3" },
-  { nome: "LAGOA", cnpj: "4" },
-];
-
-const soliciantes = [
-  { nome: "Matheus Moreira Marcelino", ramal: 2018, setor: "Marketing" },
-];
-
-const setores = [{ nome: "Marketing", unidade: "SEDE", ramal: 2018 }];
-
-const prestadores = [
-  {
-    nomeFantasia: "BSG",
-    razaoSocial: "Sublime",
-    cnpj: "111",
-    metodosPagamento: {},
-  },
-];
-
-const metodosPagamento = [
-  { nome: "Boleto", valor: "boleto" },
-  { nome: "Cheque", valor: "cheque" },
-  { nome: "Cartão Corporativo", valor: "cartao" },
-  { banco: "Banco do Brasil", agencia: "10223-10" },
-];
 
 function Payments() {
   const [repeat, setRepeat] = useState(false);
@@ -126,7 +98,7 @@ function Payments() {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="px-8 pb-2 flex w-full items-center gap-3 justify-between">
+      <div className="px-8 py-2 flex w-full items-center gap-3 justify-between">
         <Input
           id="search-input"
           type="text"
@@ -136,7 +108,7 @@ function Payments() {
 
         <Button size="lg" className={"shadow-md"} onClick={handleAddForm}>
           <PlusIcon></PlusIcon>
-          <span className="hidden md:inline">Novo Pagamento</span>
+          <span className="hidden md:inline">Pagamento</span>
         </Button>
       </div>
 
@@ -167,17 +139,11 @@ function Payments() {
           </DialogHeader>
 
           <PaymentForm
-            selectOptions={{
-              unidades,
-              soliciantes,
-              setores,
-              prestadores,
-              metodosPagamento,
-            }}
+            selectOptions={batchFormData()}
             initialData={payment}
             onSubmit={handleSave}
             onCancel={handleCancelForm}
-          ></PaymentForm>
+          />
         </DialogContent>
       </Dialog>
     </div>
