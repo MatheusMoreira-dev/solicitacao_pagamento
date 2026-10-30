@@ -14,7 +14,12 @@ import { Button } from "@/components/ui/button";
 import { useForm, Controller } from "react-hook-form";
 import { useEffect } from "react";
 
-function PaymentForm({ selectOptions = {}, initialData = {} }) {
+function PaymentForm({
+  selectOptions = {},
+  initialData = {},
+  onSubmit,
+  onCancel,
+}) {
   const emptyValues = {
     unidade: null,
     setor: null,
@@ -35,13 +40,9 @@ function PaymentForm({ selectOptions = {}, initialData = {} }) {
     reset({ ...emptyValues, ...initialData });
   }, []);
 
-  function submit(data) {
-    console.log(data);
-  }
-
   return (
     <form
-      onSubmit={handleSubmit(submit)}
+      onSubmit={handleSubmit(onSubmit)}
       className="w-full min-w-0 grid grid-cols-12 gap-4 gap-y-6"
     >
       <Controller
@@ -55,8 +56,8 @@ function PaymentForm({ selectOptions = {}, initialData = {} }) {
               {...field}
               value={field.value}
               onValueChange={field.onChange}
-              items={selectOptions?.unidades || []}
               itemToStringLabel={(item) => item?.nome ?? ""}
+              items={selectOptions?.unidades || []}
             >
               <ComboboxInput placeholder="Selecione uma Unidade"></ComboboxInput>
               <ComboboxContent>
@@ -81,7 +82,13 @@ function PaymentForm({ selectOptions = {}, initialData = {} }) {
         render={({ field, fieldState }) => (
           <Field className="col-span-4">
             <FieldLabel>Setor</FieldLabel>
-            <Combobox {...field} items={selectOptions?.setores}>
+            <Combobox
+              {...field}
+              value={field.value}
+              onValueChange={field.onChange}
+              itemToStringLabel={(item) => item?.nome ?? ""}
+              items={selectOptions?.setores}
+            >
               <ComboboxInput placeholder="Selecione um setor"></ComboboxInput>
               <ComboboxContent>
                 <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
@@ -106,7 +113,13 @@ function PaymentForm({ selectOptions = {}, initialData = {} }) {
           <Field className="col-span-5">
             <FieldLabel>Solicitante</FieldLabel>
 
-            <Combobox {...field} items={selectOptions?.soliciantes}>
+            <Combobox
+              {...field}
+              value={field.value}
+              onValueChange={field.onChange}
+              itemToStringLabel={(item) => item?.nome ?? ""}
+              items={selectOptions?.soliciantes}
+            >
               <ComboboxInput placeholder="Selecione o nome do solicitante"></ComboboxInput>
 
               <ComboboxContent>
@@ -133,10 +146,12 @@ function PaymentForm({ selectOptions = {}, initialData = {} }) {
             <FieldLabel>Prestador</FieldLabel>
             <Combobox
               {...field}
-              items={selectOptions?.prestadores}
+              value={field.value}
+              onValueChange={field.onChange}
               itemToStringLabel={(prestadores) =>
                 prestadores.razaoSocial + " - " + prestadores.nomeFantasia
               }
+              items={selectOptions?.prestadores}
             >
               <ComboboxInput placeholder="Selecione o nome do solicitante"></ComboboxInput>
 
@@ -190,7 +205,13 @@ function PaymentForm({ selectOptions = {}, initialData = {} }) {
         render={({ field, fieldState }) => (
           <Field className="col-span-4">
             <FieldLabel>Método de Pagamento</FieldLabel>
-            <Combobox {...field} items={selectOptions?.metodosPagamentos}>
+            <Combobox
+              {...field}
+              value={field.value}
+              onValueChange={field.onChange}
+              itemToStringLabel={(item) => item?.nome ?? ""}
+              items={selectOptions?.metodosPagamento}
+            >
               <ComboboxInput></ComboboxInput>
 
               <ComboboxContent>
@@ -221,9 +242,13 @@ function PaymentForm({ selectOptions = {}, initialData = {} }) {
         )}
       />
 
-      <div className="col-span-full flex justify-end gap-2">
-        <Button variant="outline">Cancelar</Button>
-        <Button variant="secondary">Limpar</Button>
+      <div className="col-span-full flex justify-center gap-2">
+        <Button onClick={onCancel} variant="outline">
+          Cancelar
+        </Button>
+        <Button onClick={() => reset(emptyValues)} variant="secondary">
+          Limpar
+        </Button>
         <Button type="submit" className="w-32">
           Salvar
         </Button>

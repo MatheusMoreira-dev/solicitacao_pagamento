@@ -32,7 +32,7 @@ const payments = [
       Reiciendis omnis tempora maiores atque illo corporis culpa nihil iusto
       debitis!`,
     dataPagamento: "2026-10-12",
-    metodoPagamento: { tipo: "Boleto" },
+    metodoPagamento: { nome: "Boleto", tipo: "Boleto" },
     dataSolicitacao: "2026-10-01",
     unidade: "SEDE",
     setor: "Marketing",
@@ -64,7 +64,7 @@ const prestadores = [
   },
 ];
 
-const pagamentos = [
+const metodosPagamento = [
   { nome: "Boleto", valor: "boleto" },
   { nome: "Cheque", valor: "cheque" },
   { nome: "Cartão Corporativo", valor: "cartao" },
@@ -72,12 +72,38 @@ const pagamentos = [
 ];
 
 function Payments() {
-  const [selectedPayment, setSelectedPayment] = useState(null);
+  const [payment, setPayment] = useState(null);
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [formOpen, setFormOpen] = useState(false);
 
   function handleSheetOpen(payment) {
-    setSelectedPayment(payment);
+    setPayment(payment);
     setSheetOpen(true);
+  }
+
+  function handleCancelForm() {
+    setPayment(null);
+    setFormOpen(false);
+  }
+
+  function handleAddForm() {
+    setPayment(null);
+    setFormOpen(true);
+  }
+
+  function handleSave() {
+    if (payment) {
+      // Chamar função para atualizar pagamento
+    } else {
+      // Chamar função para criar pagamento
+    }
+
+    setFormOpen(false);
+  }
+
+  function handleRepeatAction(data) {
+    setPayment(data);
+    setFormOpen(true);
   }
 
   return (
@@ -90,44 +116,48 @@ function Payments() {
           className={"py-5 max-w-3xl shadow-md"}
         ></Input>
 
-        <Dialog>
-          <DialogTrigger>
-            <Button size="lg" className={"shadow-md"}>
-              <PlusIcon></PlusIcon>
-              <span className="hidden md:inline">Novo Pagamento</span>
-            </Button>
-          </DialogTrigger>
-
-          <DialogContent className={"max-w-4xl! w-full!"}>
-            <DialogHeader>
-              <DialogTitle className="text-primary-text font-bold text-xl">
-                Novo Pagamento
-              </DialogTitle>
-            </DialogHeader>
-
-            <PaymentForm
-              selectOptions={{
-                unidades,
-                soliciantes,
-                setores,
-                prestadores,
-                pagamentos,
-              }}
-            ></PaymentForm>
-          </DialogContent>
-        </Dialog>
+        <Button size="lg" className={"shadow-md"} onClick={handleAddForm}>
+          <PlusIcon></PlusIcon>
+          <span className="hidden md:inline">Novo Pagamento</span>
+        </Button>
       </div>
 
       <PaymentsList
+        handleRepeatAction={handleRepeatAction}
         onSelectPayment={handleSheetOpen}
         payments={teste}
       ></PaymentsList>
 
+      {/*Detalhes do pagamento*/}
       <PaymentSheet
-        payment={selectedPayment}
+        payment={payment}
         open={sheetOpen}
         onOpenChange={setSheetOpen}
       ></PaymentSheet>
+
+      {/*Form do pagamento*/}
+      <Dialog open={formOpen} onOpenChange={setFormOpen}>
+        <DialogContent className={"max-w-4xl! w-full!"}>
+          <DialogHeader>
+            <DialogTitle className="text-primary-text font-bold text-xl">
+              {payment ? "Novo Pagamento" : "Editar Pagamento"}
+            </DialogTitle>
+          </DialogHeader>
+
+          <PaymentForm
+            selectOptions={{
+              unidades,
+              soliciantes,
+              setores,
+              prestadores,
+              metodosPagamento,
+            }}
+            initialData={payment}
+            onSubmit={handleSave}
+            onCancel={handleCancelForm}
+          ></PaymentForm>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
