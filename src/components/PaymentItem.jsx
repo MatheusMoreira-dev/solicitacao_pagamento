@@ -1,20 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { Printer, Download, Repeat } from "lucide-react";
+import { useReactToPrint } from "react-to-print";
 import { formatarMoedaPTBR } from "@/services/utils";
+import { useRef } from "react";
+import PaymentDoc from "./PaymentDoc";
 
 function PaymentItem({ payment, onClick, handleRepeatAction }) {
+  const docRef = useRef(null);
+
   function handleAction(e, callback, ...args) {
     e.stopPropagation();
     callback?.(...args);
   }
 
-  function handleDownload() {
-    console.log(payment);
-  }
+  function handleDownload() {}
 
-  function handlePrint() {
-    console.log(payment);
-  }
+  const handlePrint = useReactToPrint({
+    contentRef: docRef,
+    documentTitle: "Solicitação de Pagamento",
+  });
 
   return (
     <div
@@ -61,6 +65,12 @@ function PaymentItem({ payment, onClick, handleRepeatAction }) {
           <Repeat></Repeat>
           <span className="hidden sm:inline">Replicar</span>
         </Button>
+      </div>
+
+      <div className="fixed left-0 top-0 -z-50 h-0 w-0 overflow-hidden">
+        <div ref={docRef}>
+          <PaymentDoc payment={payment} />
+        </div>
       </div>
     </div>
   );

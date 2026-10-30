@@ -22,8 +22,17 @@ function Home() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="payments" className="flex min-h-0 flex-1 flex-col">
+        <TabsContent
+          value="payments"
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
           <Payments />
+        </TabsContent>
+
+        <TabsContent
+          value="serviceProviders"
+          className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        >
           <ServiceProviders />
         </TabsContent>
       </Tabs>
