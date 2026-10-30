@@ -17,7 +17,7 @@ import { useState } from "react";
 const payments = [
   {
     prestador: "Matheus",
-    valor: 12.0,
+    valor: 1201,
     descricao: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident maxime
       eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
       Reiciendis omnis tempora maiores atque illo corporis culpa nihil iusto
@@ -34,13 +34,15 @@ const payments = [
     dataPagamento: "2026-10-12",
     metodoPagamento: { nome: "Boleto", tipo: "Boleto" },
     dataSolicitacao: "2026-10-01",
-    unidade: "SEDE",
-    setor: "Marketing",
-    solicitante: "Matheus Moreira Marcelino",
+    unidade: { nome: "SEDE" },
+    setor: { nome: "Marketing" },
+    solicitante: { nome: "Matheus Moreira Marcelino" },
   },
 ];
 
-const teste = new Array(10).fill(payments[0]);
+const teste = new Array(10)
+  .fill(payments[0])
+  .map((v) => ({ ...v, id: crypto.randomUUID() }));
 
 const unidades = [
   { nome: "SEDE", cnpj: "1" },
@@ -101,8 +103,8 @@ function Payments() {
     setFormOpen(false);
   }
 
-  function handleRepeatAction(data) {
-    setPayment(data);
+  function handleRepeatAction(payment) {
+    setPayment(payment);
     setFormOpen(true);
   }
 

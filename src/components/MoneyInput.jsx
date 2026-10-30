@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { formatMoney } from "@/services/utils";
 
-function MoneyInput({ value, onChange, ...props }) {
+function MoneyInput({ value = "", onChange, ...props }) {
   const [texto, setTexto] = useState(
-    value != null && value !== "" ? formatMoney(Number(value)) : "",
+    value !== null && value !== "" ? formatMoney(Number(value)) : "",
   );
 
   function handleChange(e) {
@@ -18,12 +18,12 @@ function MoneyInput({ value, onChange, ...props }) {
   return (
     <>
       <Input
-        {...props}
         type="text"
         inputMode="numeric"
         value={texto}
         onChange={handleChange}
         placeholder="R$ 0,00"
+        {...props}
       ></Input>
     </>
   );

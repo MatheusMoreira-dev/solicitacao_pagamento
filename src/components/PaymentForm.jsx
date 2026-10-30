@@ -177,11 +177,7 @@ function PaymentForm({
         render={({ field, fieldState }) => (
           <Field className="col-span-4">
             <FieldLabel>Valor</FieldLabel>
-            <MoneyInput
-              {...field}
-              value={field.value}
-              onChange={field.onChange}
-            ></MoneyInput>
+            <MoneyInput {...field}></MoneyInput>
           </Field>
         )}
       />
