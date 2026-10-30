@@ -16,7 +16,11 @@ import { useState } from "react";
 
 const payments = [
   {
-    prestador: { razaoSocial: "Matheus", nomeFantasia: "Fantasia" },
+    prestador: {
+      razaoSocial: "Matheus",
+      nomeFantasia: "Fantasia",
+      cnpj: "1234567890",
+    },
     valor: 1201,
     descricao: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident maxime
       eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
@@ -34,8 +38,8 @@ const payments = [
     dataPagamento: "2026-10-12",
     metodoPagamento: { nome: "Boleto", tipo: "Boleto" },
     dataSolicitacao: "2026-10-01",
-    unidade: { nome: "SEDE" },
-    setor: { nome: "Marketing" },
+    unidade: { nome: "SEDE", cnpj: "1232112421", cod: "12345" },
+    setor: { nome: "Marketing", ramal: 2018 },
     solicitante: { nome: "Matheus Moreira Marcelino" },
   },
 ];

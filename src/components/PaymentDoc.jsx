@@ -1,21 +1,26 @@
+import logo from "@/assets/logo.png";
+import { formatarMoedaPTBR } from "@/services/utils";
+
 function DocHeader({ payment }) {
   return (
     <header className="w-full border-2 border-black">
       {/* Logo e título */}
       <div className="grid grid-cols-[32%_68%]">
-        <div className="flex flex-col items-center justify-center border-r-2 border-black p-2">
+        <div className="flex flex-col gap-2 items-center justify-center border-r-2 border-black p-2">
           {/* Logo da empresa */}
-          <div className="h-12 w-36">{/* Logo */}</div>
+          <div className="h-12 w-36">
+            <img src={logo} alt="" />
+          </div>
+
           <div className="flex w-full justify-around text-[9px] font-bold">
-            <span>#N/D</span>
-            <span>#N/D</span>
+            <span>{payment.unidade.cod}</span>
+            <span>{payment.unidade.cnpj}</span>
           </div>
         </div>
 
-        <div className="flex items-center justify-center p-3 text-center">
-          <h1 className="text-base font-bold uppercase">
-            Solicitação de Pagamento
-          </h1>
+        <div className="flex flex-col gap-1 items-center justify-center p-3 text-center text-base font-bold uppercase">
+          <h1>Solicitação de Pagamento</h1>
+          <span>{payment.unidade.nome}</span>
         </div>
       </div>
 
@@ -27,7 +32,7 @@ function DocHeader({ payment }) {
               SETOR:
             </span>
             <div className="min-h-7 border-b border-black px-2">
-              {/* Setor */}
+              {payment.setor.nome}
             </div>
           </div>
 
@@ -36,7 +41,7 @@ function DocHeader({ payment }) {
               SOLICITANTE:
             </span>
             <div className="min-h-7 border-b border-black px-2">
-              {/* Solicitante */}
+              {payment.solicitante.nome}
             </div>
           </div>
 
@@ -45,7 +50,7 @@ function DocHeader({ payment }) {
               DATA DA SOLICITAÇÃO:
             </span>
             <div className="min-h-7 border-b border-black px-2">
-              {/* Data da solicitação */}
+              {new Date().toLocaleDateString("pt-br")}
             </div>
           </div>
 
@@ -53,7 +58,7 @@ function DocHeader({ payment }) {
             <span className="bg-primary px-2 py-1 text-center text-xs font-bold text-white">
               RAMAL:
             </span>
-            <div className="min-h-7 px-2">{/* Ramal */}</div>
+            <div className="min-h-7 px-2">{payment.setor.ramal}</div>
           </div>
         </section>
 
@@ -87,7 +92,11 @@ function DocContent({ payment }) {
         </h2>
 
         <div className="min-h-8 border-b-2 border-black">
-          {/* Nome do favorecido */}
+          {payment.prestador?.nomeFantasia
+            ? payment.prestador?.razaoSocial +
+              " - " +
+              payment.prestador.nomeFantasia
+            : payment.prestador?.razaoSocial || ""}
         </div>
       </section>
 
@@ -97,7 +106,7 @@ function DocContent({ payment }) {
           CNPJ/CPF:
         </h2>
         <div className="min-h-8 border-b-2 border-black">
-          {/* Documento fiscal */}
+          {payment.prestador.cnpj}
         </div>
       </section>
 
@@ -107,7 +116,9 @@ function DocContent({ payment }) {
           <h2 className="border-b-2 border-black bg-primary py-1 text-center text-xs font-bold text-white">
             VALOR (R$)
           </h2>
-          <div className="min-h-8 border-b-2 border-black">{/* Valor */}</div>
+          <div className="min-h-8 border-b-2 border-black">
+            {formatarMoedaPTBR(payment.valor)}
+          </div>
         </div>
 
         <div>
@@ -115,7 +126,7 @@ function DocContent({ payment }) {
             DATA LIMITE PRA PGTO
           </h2>
           <div className="min-h-8 border-b-2 border-black">
-            {/* Data limite */}
+            {payment.dataPagamento}
           </div>
         </div>
       </section>
@@ -127,7 +138,7 @@ function DocContent({ payment }) {
         </h2>
 
         <div className="min-h-20 border-b-2 border-black p-2">
-          {/* Observações, finalidade e justificativa */}
+          {payment.descricao}
         </div>
       </section>
 
