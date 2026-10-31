@@ -7,4 +7,8 @@ function formatarMoedaPTBR(centavos, format = "pt-BR", currency = "BRL") {
   return `R$ ${reais.replace(/\B(?=(\d{3})+(?!\d))/g, ".")},${decimais}`;
 }
 
-export { formatarMoedaPTBR };
+function millisecondsToPTBRDate(milliseconds) {
+  return new Date(milliseconds).toLocaleDateString("pt-br");
+}
+
+export { formatarMoedaPTBR, millisecondsToPTBRDate };

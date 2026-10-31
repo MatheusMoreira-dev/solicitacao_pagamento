@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { Printer, Download, Repeat } from "lucide-react";
+import { Printer, Download, Repeat, CircleDollarSign } from "lucide-react";
 import { useReactToPrint } from "react-to-print";
-import { formatarMoedaPTBR } from "@/services/utils";
+import { formatarMoedaPTBR, millisecondsToPTBRDate } from "@/services/utils";
 import { useRef } from "react";
 import PaymentDoc from "./PaymentDoc";
 
@@ -23,11 +23,12 @@ function PaymentItem({ payment, onClick, handleRepeatAction }) {
   return (
     <div
       onClick={onClick}
-      className="w-full bg-surface rounded-xl shadow-xl py-4 px-6 relative ring ring-border cursor-pointer hover:ring-2 hover:ring-secondary hover:scale-105 transition-transform duration-300 hover:z-25 hover:shadow-2xl"
+      className="flex flex-col shrink-0 h-48 w-full bg-surface rounded-xl shadow-xl py-4 px-6 relative ring ring-border cursor-pointer hover:ring-2 hover:ring-secondary hover:scale-105 transition-transform duration-300 hover:z-25 hover:shadow-2xl"
     >
-      <p className="absolute top-4 right-4 text-secondary-text text-sm">
-        {payment?.dataPagamento || ""}
-      </p>
+      <div className="text-secondary-text text-sm absolute top-4 right-4 flex items-center gap-1">
+        <p>{millisecondsToPTBRDate(payment?.dataPagamento) || ""}</p>
+        <CircleDollarSign className="size-4" />
+      </div>
 
       <p className="font-bold mb-1 text-primary-text">
         {payment.prestador?.nomeFantasia
@@ -36,15 +37,16 @@ function PaymentItem({ payment, onClick, handleRepeatAction }) {
             payment.prestador.nomeFantasia
           : payment.prestador?.razaoSocial || ""}
       </p>
+
       <p className="text-primary-text mb-2 text-sm">
         {formatarMoedaPTBR(payment?.valor || 0)}
       </p>
 
-      <p className="line-clamp-2 text-secondary-text text-xs">
+      <p className="line-clamp-4 text-secondary-text text-xs">
         {payment?.descricao || ""}
       </p>
 
-      <div className="flex justify-end flex-wrap w-full gap-2 mt-3">
+      <div className="mt-auto pt-3 flex justify-end flex-wrap w-full gap-2">
         <Button
           variant="tertiary"
           onClick={(e) => handleAction(e, handlePrint)}

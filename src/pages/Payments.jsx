@@ -36,7 +36,7 @@ const payments = [
       eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
       Reiciendis omnis tempora maiores atque illo corporis culpa nihil iusto
       debitis!`,
-    dataPagamento: "2026-10-12",
+    dataPagamento: 1793407920000,
     metodoPagamento: { nome: "Boleto", tipo: "Boleto" },
     dataSolicitacao: "2026-10-01",
     unidade: { nome: "SEDE", cnpj: "1232112421", cod: "12345" },
@@ -72,10 +72,11 @@ function Payments() {
   }
 
   function handleSave() {
-    if (payment) {
-      // Chamar função para atualizar pagamento
-    } else {
+    // Se for um pagamento novo ou repetição
+    if (!payment || repeat) {
       // Chamar função para criar pagamento
+    } else {
+      // Chamar função para atualizar pagamento
     }
 
     setFormOpen(false);
@@ -130,11 +131,7 @@ function Payments() {
         <DialogContent className={"max-w-4xl! w-full!"}>
           <DialogHeader>
             <DialogTitle className="text-primary-text font-bold text-xl">
-              {repeat
-                ? "Replicar Pagamento"
-                : payment
-                  ? "Editar Pagamento"
-                  : "Novo Pagamento"}
+              {!payment || repeat ? "Novo Pagamento" : "Editar Pagamento"}
             </DialogTitle>
           </DialogHeader>
 
