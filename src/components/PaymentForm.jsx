@@ -35,9 +35,31 @@ function PaymentForm({
     defaultValues: emptyValues,
   });
 
+  function formatDate(timestamp) {
+    if (!timestamp) return "";
+
+    const date = new Date(timestamp);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
   // Adiciona os dados iniciais nos campos do form
   useEffect(() => {
-    reset({ ...emptyValues, ...initialData });
+    reset({
+      ...emptyValues,
+      ...initialData,
+      dataPagamento: formatDate(initialData.dataPagamento),
+    });
+
+    console.log({
+      ...emptyValues,
+      ...initialData,
+      dataPagamento: formatDate(initialData.dataPagamento),
+    });
   }, []);
 
   return (
