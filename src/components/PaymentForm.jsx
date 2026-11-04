@@ -13,6 +13,7 @@ import MoneyInput from "@/components/MoneyInput";
 import { Button } from "@/components/ui/button";
 import { useForm, Controller } from "react-hook-form";
 import { useEffect } from "react";
+import { formatDate } from "@/services/utils";
 
 function PaymentForm({
   selectOptions = {},
@@ -35,32 +36,14 @@ function PaymentForm({
     defaultValues: emptyValues,
   });
 
-  function formatDate(timestamp) {
-    if (!timestamp) return "";
-
-    const date = new Date(timestamp);
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
-  }
-
   // Adiciona os dados iniciais nos campos do form
   useEffect(() => {
-    reset({
-      ...emptyValues,
-      ...initialData,
-      dataPagamento: formatDate(initialData.dataPagamento),
-    });
+    const payload = { ...emptyValues, ...initialData };
 
-    console.log({
-      ...emptyValues,
-      ...initialData,
-      dataPagamento: formatDate(initialData.dataPagamento),
-    });
-  }, []);
+    payload["dataPagamento"] = formatDate(payload.dataPagamento);
+
+    reset(payload);
+  }, [initialData]);
 
   return (
     <form
