@@ -6,12 +6,12 @@ import { CircleDollarSign, UsersRoundCollaboration } from "lucide-react";
 
 function Home() {
   return (
-    <div className="flex h-full min-h-0 flex-col">
+    <div className="h-full">
       <Header />
 
       <Tabs
         defaultValue="payments"
-        className="w-full max-w-7xl mx-auto flex min-h-0 flex-1 flex-col"
+        className="w-full mx-auto flex min-h-0 flex-1 flex-col mb-5"
       >
         <TabsList className="px-8 bg-background">
           <TabsTrigger value="payments" className="cursor-pointer">

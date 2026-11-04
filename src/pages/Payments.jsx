@@ -99,7 +99,7 @@ function Payments() {
 
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="px-8 py-2 flex w-full items-center gap-3 justify-between">
+      <div className="sticky top-0 px-8 py-2 flex w-full items-center gap-3 justify-between">
         <Input
           id="search-input"
           type="text"

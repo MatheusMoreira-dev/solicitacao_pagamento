@@ -245,13 +245,15 @@ function PaymentForm({
         )}
       />
 
-      <div className="col-span-full flex justify-center gap-2">
+      <div className="col-span-full flex justify-end gap-2">
         <Button onClick={onCancel} variant="outline">
           Cancelar
         </Button>
+
         <Button onClick={() => reset(emptyValues)} variant="secondary">
           Limpar
         </Button>
+
         <Button type="submit" className="w-32">
           Salvar
         </Button>
