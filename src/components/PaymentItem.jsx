@@ -23,7 +23,7 @@ function PaymentItem({ payment, onClick, handleRepeatAction }) {
   return (
     <div
       onClick={onClick}
-      className="flex flex-col shrink-0 h-48 w-full bg-surface rounded-xl shadow-xl py-4 px-6 relative ring ring-border cursor-pointer hover:ring-2 hover:ring-secondary hover:scale-105 transition-transform duration-300 hover:z-25 hover:shadow-2xl"
+      className="flex flex-col shrink-0 h-56 w-full bg-surface rounded-xl shadow-xl py-4 px-6 relative ring ring-border cursor-pointer hover:ring-2 hover:ring-secondary hover:scale-105 transition-transform duration-300 hover:z-25 hover:shadow-2xl"
     >
       <div className="text-secondary-text text-sm absolute top-4 right-4 flex items-center gap-1">
         <p>{millisecondsToPTBRDate(payment?.dataPagamento) || ""}</p>

@@ -1,6 +1,10 @@
 import PaymentsList from "../components/PaymentsList";
 import PaymentForm from "@/components/PaymentForm";
-import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,8 +14,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { PlusIcon } from "lucide-react";
-import PaymentSheet from "@/components/PaymentSheet";
+import { PlusIcon, Search } from "lucide-react";
+import PaymentDetails from "@/components/PaymentDetails";
 import { useState } from "react";
 import { batchFormData } from "@/services/api";
 
@@ -52,12 +56,12 @@ const teste = new Array(10)
 function Payments() {
   const [repeat, setRepeat] = useState(false);
   const [payment, setPayment] = useState(null);
-  const [sheetOpen, setSheetOpen] = useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
 
-  function handleSheetOpen(payment) {
+  function handleDetailsOpen(payment) {
     setPayment(payment);
-    setSheetOpen(true);
+    setDetailsOpen(true);
   }
 
   function handleCancelForm() {
@@ -100,14 +104,15 @@ function Payments() {
   return (
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="sticky top-0 px-8 py-2 flex w-full items-center gap-3 justify-between">
-        <Input
-          id="search-input"
-          type="text"
-          placeholder="Pesquisa..."
-          className={"py-5 max-w-3xl shadow-md"}
-        ></Input>
+        <InputGroup className="max-w-md">
+          <InputGroupInput placeholder="Search..." />
+          <InputGroupAddon>
+            <Search />
+          </InputGroupAddon>
+          <InputGroupAddon align="inline-end">{"resultados"}</InputGroupAddon>
+        </InputGroup>
 
-        <Button size="lg" className={"shadow-md"} onClick={handleAddForm}>
+        <Button size="lg" onClick={handleAddForm}>
           <PlusIcon></PlusIcon>
           <span className="hidden md:inline">Pagamento</span>
         </Button>
@@ -115,16 +120,16 @@ function Payments() {
 
       <PaymentsList
         handleRepeatAction={handleRepeatAction}
-        onSelectPayment={handleSheetOpen}
+        onSelectPayment={handleDetailsOpen}
         payments={teste}
       ></PaymentsList>
 
       {/*Detalhes do pagamento*/}
-      <PaymentSheet
+      <PaymentDetails
         payment={payment}
-        open={sheetOpen}
-        onOpenChange={setSheetOpen}
-      ></PaymentSheet>
+        open={detailsOpen}
+        onOpenChange={setDetailsOpen}
+      ></PaymentDetails>
 
       {/*Form do pagamento*/}
       <Dialog open={formOpen} onOpenChange={handleFormOpen}>
