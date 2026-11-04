@@ -1,3 +1,5 @@
+import app from "./firebase";
+
 async function getPayments() {}
 
 async function getServicesProviders() {}
