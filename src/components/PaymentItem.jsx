@@ -23,6 +23,7 @@ function PaymentItem({ payment, onClick, handleRepeatAction }) {
 
   return (
     <div
+      id={payment.id}
       onClick={onClick}
       className="flex flex-col shrink-0 h-56 w-full bg-surface rounded-xl shadow-sm py-4 px-6 relative ring ring-border cursor-pointer hover:ring-1 hover:ring-secondary hover:scale-95 transition-transform duration-300 hover:z-25"
     >

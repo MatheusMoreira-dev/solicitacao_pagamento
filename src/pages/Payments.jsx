@@ -11,26 +11,49 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 
 import { PlusIcon, Search } from "lucide-react";
 import PaymentDetails from "@/components/PaymentDetails";
 import { useState, useEffect } from "react";
 import { batchFormData, createPayment, listenPayments } from "@/services/api";
+import { normalizeString } from "@/services/utils";
 
 function Payments() {
   const [payments, setPayments] = useState([]);
+  const [filterPayments, setFilterPayments] = useState([]);
   const [repeat, setRepeat] = useState(false);
   const [payment, setPayment] = useState(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = listenPayments(setPayments);
+    function handleLoadPayments(payments) {
+      setPayments(payments);
+      setFilterPayments(payments);
+    }
+
+    const unsubscribe = listenPayments(handleLoadPayments);
 
     return () => unsubscribe();
   }, []);
+
+  function handleSearch(inputValue) {
+    const normalizeStr = normalizeString(inputValue);
+
+    if (!normalizeStr) {
+      setFilterPayments(payments);
+      return;
+    }
+
+    const parcial = payments.filter((object) =>
+      Object.values(object)
+        .map(normalizeString)
+        .some((v) => v.includes(normalizeStr)),
+    );
+
+    setFilterPayments(parcial);
+  }
 
   function handleDetailsOpen(payment) {
     setPayment(payment);
@@ -80,7 +103,10 @@ function Payments() {
     <div className="pb-10">
       <div className="sticky z-50 top-0 px-8 py-2 flex w-full items-center gap-3 justify-between bg-background">
         <InputGroup className="max-w-md">
-          <InputGroupInput placeholder="Search..." />
+          <InputGroupInput
+            placeholder="Search..."
+            onValueChange={handleSearch}
+          />
           <InputGroupAddon>
             <Search />
           </InputGroupAddon>
@@ -96,7 +122,7 @@ function Payments() {
       <PaymentsList
         handleRepeatAction={handleRepeatAction}
         onSelectPayment={handleDetailsOpen}
-        payments={payments}
+        payments={filterPayments}
       ></PaymentsList>
 
       {/*Detalhes do pagamento*/}

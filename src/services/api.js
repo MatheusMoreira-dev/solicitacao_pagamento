@@ -4,14 +4,18 @@ import { getDatabase, ref, set, onValue, push } from "firebase/database";
 const db = getDatabase(app);
 const paymentsRef = ref(db, "pagamentos/");
 
-async function createPayment(payment) {
+function createPayment(payment) {
   push(paymentsRef, { ...payment });
 }
 
 function listenPayments(callback) {
   const unsubscribe = onValue(paymentsRef, (snapshot) => {
     const data = snapshot.val();
-    callback(data ? Object.values(data) : []);
+    callback(
+      data
+        ? Object.entries(data).map(([key, values]) => ({ id: key, ...values }))
+        : [],
+    );
   });
 
   return unsubscribe;

@@ -23,4 +23,15 @@ function formatDate(timestamp) {
   return `${year}-${month}-${day}`;
 }
 
-export { formatarMoedaPTBR, millisecondsToPTBRDate, formatDate };
+function normalizeString(str) {
+  if (!str) return "";
+
+  return String(str).normalize("NFD").toLowerCase();
+}
+
+export {
+  formatarMoedaPTBR,
+  millisecondsToPTBRDate,
+  formatDate,
+  normalizeString,
+};
