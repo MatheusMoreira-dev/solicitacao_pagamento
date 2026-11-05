@@ -1,8 +1,21 @@
 import app from "./firebase";
+import { getDatabase, ref, set, onValue, push } from "firebase/database";
 
-async function getPayments() {}
+const db = getDatabase(app);
+const paymentsRef = ref(db, "pagamentos/");
 
-async function getServicesProviders() {}
+async function createPayment(payment) {
+  push(paymentsRef, { ...payment });
+}
+
+function listenPayments(callback) {
+  const unsubscribe = onValue(paymentsRef, (snapshot) => {
+    const data = snapshot.val();
+    callback(data ? Object.values(data) : []);
+  });
+
+  return unsubscribe;
+}
 
 function batchFormData() {
   const unidades = [
@@ -37,4 +50,4 @@ function batchFormData() {
   return { unidades, solicitantes, setores, prestadores, metodosPagamento };
 }
 
-export { batchFormData };
+export { batchFormData, createPayment, listenPayments };

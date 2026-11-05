@@ -16,12 +16,30 @@ function Header() {
         </div>
 
         <nav className="absolute left-1/2 -translate-x-1/2 flex gap-6 text-sm text-background">
-          <NavLink to="/pagamentos" className="flex gap-1 items-center">
+          <NavLink
+            to="/pagamentos"
+            className={({ isActive }) =>
+              `flex items-center gap-2 px-4 py-1 ${
+                isActive
+                  ? "text-background border-b-3"
+                  : "hover:text-background text-background/60"
+              }`
+            }
+          >
             <FaDollarSign></FaDollarSign>
             <span>Pagamentos</span>
           </NavLink>
 
-          <NavLink to="/prestadores" className="flex gap-1 items-center">
+          <NavLink
+            to="/prestadores"
+            className={({ isActive }) =>
+              `flex items-center gap-2 px-4 py-1 ${
+                isActive
+                  ? "text-background border-b-3"
+                  : "hover:text-background text-background/60"
+              }`
+            }
+          >
             <MdPeople></MdPeople>
             <span>Prestadores</span>
           </NavLink>

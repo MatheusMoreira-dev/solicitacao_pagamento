@@ -16,48 +16,21 @@ import {
 
 import { PlusIcon, Search } from "lucide-react";
 import PaymentDetails from "@/components/PaymentDetails";
-import { useState } from "react";
-import { batchFormData } from "@/services/api";
-
-const payments = [
-  {
-    prestador: {
-      razaoSocial: "Matheus",
-      nomeFantasia: "Fantasia",
-      cnpj: "1234567890",
-    },
-    valor: 1201,
-    descricao: `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident maxime
-      eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
-      Reiciendis omnis tempora maiores atque illo corporis culpa nihil iusto
-      debitis! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident maxime
-      eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
-      Reiciendis omnis tempora maiores atque illo corporis culpa nihil iusto
-      debitis!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident maxime
-      eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
-      Reiciendis omnis tempora maiores atque illo corporis culpa nihil iusto
-      debitis!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident maxime
-      eligendi eum sequi totam aspernatur voluptatibus a quas cupiditate.
-      Reiciendis omnis tempora maiores atque illo corporis culpa nihil iusto
-      debitis!`,
-    dataPagamento: 1793407920000,
-    metodoPagamento: { nome: "Boleto", tipo: "Boleto" },
-    dataSolicitacao: "2026-10-01",
-    unidade: { nome: "SEDE", cnpj: "1232112421", cod: "12345" },
-    setor: { nome: "Marketing", ramal: 2018 },
-    solicitante: { nome: "Matheus Moreira Marcelino" },
-  },
-];
-
-const teste = new Array(10)
-  .fill(payments[0])
-  .map((v) => ({ ...v, id: crypto.randomUUID() }));
+import { useState, useEffect } from "react";
+import { batchFormData, createPayment, listenPayments } from "@/services/api";
 
 function Payments() {
+  const [payments, setPayments] = useState([]);
   const [repeat, setRepeat] = useState(false);
   const [payment, setPayment] = useState(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = listenPayments(setPayments);
+
+    return () => unsubscribe();
+  }, []);
 
   function handleDetailsOpen(payment) {
     setPayment(payment);
@@ -75,10 +48,12 @@ function Payments() {
     setFormOpen(true);
   }
 
-  function handleSave() {
+  function handleSave(data) {
     // Se for um pagamento novo ou repetição
     if (!payment || repeat) {
       // Chamar função para criar pagamento
+      createPayment(data);
+      console.log(data);
     } else {
       // Chamar função para atualizar pagamento
     }
@@ -121,7 +96,7 @@ function Payments() {
       <PaymentsList
         handleRepeatAction={handleRepeatAction}
         onSelectPayment={handleDetailsOpen}
-        payments={teste}
+        payments={payments}
       ></PaymentsList>
 
       {/*Detalhes do pagamento*/}
