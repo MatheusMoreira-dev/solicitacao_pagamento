@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Printer, Download, Repeat, CircleDollarSign } from "lucide-react";
+import { Printer, Download, Repeat } from "lucide-react";
+import { FaDollarSign } from "react-icons/fa";
 import { useReactToPrint } from "react-to-print";
 import { formatarMoedaPTBR, millisecondsToPTBRDate } from "@/services/utils";
 import { useRef } from "react";
@@ -26,8 +27,8 @@ function PaymentItem({ payment, onClick, handleRepeatAction }) {
       className="flex flex-col shrink-0 h-56 w-full bg-surface rounded-xl shadow-sm py-4 px-6 relative ring ring-border cursor-pointer hover:ring-1 hover:ring-secondary hover:scale-95 transition-transform duration-300 hover:z-25"
     >
       <div className="text-secondary-text text-sm absolute top-4 right-4 flex items-center gap-1">
+        <FaDollarSign className="size-3" />
         <p>{millisecondsToPTBRDate(payment?.dataPagamento) || ""}</p>
-        <CircleDollarSign className="size-4" />
       </div>
 
       <p className="font-bold mb-1 text-primary-text">
