@@ -29,9 +29,24 @@ function normalizeString(str) {
   return String(str).normalize("NFD").toLowerCase();
 }
 
+function extractObjValues(obj) {
+  let values = [];
+
+  for (let v of Object.values(obj)) {
+    if (typeof v === "object" && v !== null && !Array.isArray(v)) {
+      values = values.concat(extractObjValues(v));
+    } else {
+      values.push(v);
+    }
+  }
+
+  return values;
+}
+
 export {
   formatarMoedaPTBR,
   millisecondsToPTBRDate,
   formatDate,
   normalizeString,
+  extractObjValues,
 };

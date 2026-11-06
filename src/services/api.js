@@ -1,24 +1,56 @@
 import app from "./firebase";
-import { getDatabase, ref, set, onValue, push } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onValue,
+  push,
+  set,
+  update,
+  remove,
+} from "firebase/database";
 
 const db = getDatabase(app);
 const paymentsRef = ref(db, "pagamentos/");
 
 function createPayment(payment) {
-  push(paymentsRef, { ...payment });
+  const node = push(paymentsRef);
+  const pathRef = ref(db, `pagamentos/${node.key}`);
+
+  return set(pathRef, payment);
 }
 
-function listenPayments(callback) {
-  const unsubscribe = onValue(paymentsRef, (snapshot) => {
-    const data = snapshot.val();
-    callback(
-      data
-        ? Object.entries(data).map(([key, values]) => ({ id: key, ...values }))
-        : [],
-    );
-  });
+function listenPayments(callback, cancelCallBack) {
+  const unsubscribe = onValue(
+    paymentsRef,
+    (snapshot) => {
+      const data = snapshot.val();
+      callback(
+        data
+          ? Object.entries(data).map(([key, values]) => ({
+              id: key,
+              ...values,
+            }))
+          : [],
+      );
+    },
+    cancelCallBack,
+  );
 
   return unsubscribe;
+}
+
+function updatePayment(payment) {
+  if (!payment?.id) throw new Error("Não foi informado o id");
+
+  const pathRef = ref(db, `pagamentos/${payment.id}`);
+  return update(pathRef, payment);
+}
+
+function deletePayment(id) {
+  if (!id) throw new Error("Não foi informado o id");
+
+  const pathRef = ref(db, `pagamentos/${id}`);
+  return remove(pathRef);
 }
 
 function batchFormData() {
@@ -54,4 +86,10 @@ function batchFormData() {
   return { unidades, solicitantes, setores, prestadores, metodosPagamento };
 }
 
-export { batchFormData, createPayment, listenPayments };
+export {
+  batchFormData,
+  createPayment,
+  listenPayments,
+  updatePayment,
+  deletePayment,
+};
