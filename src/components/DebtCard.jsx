@@ -9,6 +9,7 @@ import {
 
 import { Badge } from "./ui/badge";
 import { FaCheck } from "react-icons/fa6";
+import { AiFillDollarCircle } from "react-icons/ai";
 
 import { Button } from "./ui/button";
 
@@ -44,6 +45,7 @@ function DebtCard({ debt }) {
             variant="outline"
             className="rounded-full px-8 border-primary text-primary text-sm"
           >
+            <AiFillDollarCircle />
             Pagar
           </Button>
         )}
