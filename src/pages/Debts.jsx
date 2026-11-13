@@ -4,7 +4,7 @@ function Debts() {
   const debts = [
     {
       prestador: "Fontenele e Bonfim",
-      paid: 12.0,
+      paid: 100.0,
       total: 100.0,
       descricao: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, quam
         ex excepturi doloribus corrupti nesciunt voluptatem adipisci, tenetur ea
@@ -150,7 +150,7 @@ function Debts() {
 
   return (
     <>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 min-h-0 flex-1 gap-2 px-8 py-2">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 min-h-0 flex-1 gap-4 px-8 py-2">
         {debts.map((v) => (
           <DebtCard debt={v} />
         ))}

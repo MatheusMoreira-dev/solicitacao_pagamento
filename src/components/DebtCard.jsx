@@ -1,55 +1,54 @@
 import {
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardAction,
-  CardDescription,
-  Card,
-} from "./ui/card";
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemFooter,
+  ItemHeader,
+  ItemTitle,
+} from "./ui/item";
 
 import { Badge } from "./ui/badge";
 import { FaCheck } from "react-icons/fa6";
-import { useState } from "react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+
+import { Button } from "./ui/button";
 
 function DebtCard({ debt }) {
-  const [paid, setPaid] = useState(debt?.total - debt?.paid >= 0);
+  const paid = debt?.paid === debt?.total;
 
   return (
-    <Card className="h-min">
-      <CardHeader>
-        <CardTitle>{debt.prestador}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <CardDescription className="line-clamp-3">
-          {debt.descricao}
-        </CardDescription>
-      </CardContent>
-
-      <CardFooter>
-        <Accordion>
-          <AccordionItem value="item-1">
-            <AccordionTrigger>Is it accessible?</AccordionTrigger>
-            <AccordionContent>
-              Yes. It adheres to the WAI-ARIA design pattern.
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
-        {paid ? (
-          <Badge variant="destructive">{`R$ ${debt.paid},00 / ${debt.total},00`}</Badge>
+    <Item variant="outline" className="relative overflow-hidden">
+      <ItemHeader>
+        <Badge variant="outline">{debt?.unidade || "SEDE"}</Badge>
+        {!paid ? (
+          <Badge variant="destructive">{`R$ ${debt.total - debt.paid},00`}</Badge>
         ) : (
           <Badge className="bg-green-600">
             <FaCheck /> Pago
           </Badge>
         )}
-      </CardFooter>
-    </Card>
+      </ItemHeader>
+
+      <ItemContent>
+        <ItemTitle>{debt.prestador}</ItemTitle>
+        <ItemDescription>{debt.descricao}</ItemDescription>
+      </ItemContent>
+
+      <ItemFooter>
+        <div>
+          <span className="text-xs text-muted-foreground">Total: </span>
+          <span className="">R$ {debt.total},00</span>
+        </div>
+
+        {!paid && (
+          <Button
+            variant="outline"
+            className="rounded-full px-8 border-primary text-primary text-sm"
+          >
+            Pagar
+          </Button>
+        )}
+      </ItemFooter>
+    </Item>
   );
 }
 
