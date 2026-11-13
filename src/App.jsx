@@ -2,6 +2,7 @@ import "./App.css";
 import Home from "./pages/Home";
 import Payments from "./pages/Payments";
 import ServiceProviders from "./pages/ServiceProviders";
+import Debts from "./pages/Debts";
 import Header from "@/components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -16,6 +17,7 @@ function App() {
             <Route path="/" element={<Payments />} />
             <Route path="/pagamentos" element={<Payments />} />
             <Route path="/prestadores" element={<ServiceProviders />} />
+            <Route path="/dividas" element={<Debts />} />
           </Routes>
         </main>
       </BrowserRouter>
