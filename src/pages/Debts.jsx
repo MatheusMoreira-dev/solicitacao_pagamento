@@ -22,7 +22,7 @@ function Debts() {
     },
     {
       prestador: "Fontenele e Bonfim",
-      paid: 12.0,
+      paid: 100.0,
       total: 100.0,
       descricao: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, quam
         ex excepturi doloribus corrupti nesciunt voluptatem adipisci, tenetur ea
@@ -40,7 +40,7 @@ function Debts() {
     },
     {
       prestador: "Fontenele e Bonfim",
-      paid: 12.0,
+      paid: 100.0,
       total: 100.0,
       descricao: `Lorem ipsum dolor sit amet consectetur adipisicing elit. Obcaecati, quam
         ex excepturi doloribus corrupti nesciunt voluptatem adipisci, tenetur ea
