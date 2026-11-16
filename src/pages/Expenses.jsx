@@ -5,11 +5,35 @@ import {
   InputGroupInput,
   InputGroupButton,
 } from "@/components/ui/input-group";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { PlusIcon, Search, X } from "lucide-react";
+import ExpenseForm from "@/features/expense/components/ExpenseForm";
 import { useState } from "react";
+import { createExpense } from "@/features/expense/services/expenseService";
+import { batchFormData } from "@/features/paymentRequest/services/paymentRequestService";
 
 function Expenses() {
+  const [formOpen, setFormOpen] = useState(false);
+
+  function handleFormOpen(open) {
+    setFormOpen(open);
+  }
+
+  async function handleSubmit(values) {
+    try {
+      await createExpense(values);
+      setFormOpen(false);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const debts = [
     {
       prestador: "Fontenele e Bonfim",
@@ -185,9 +209,9 @@ function Expenses() {
           )}
         </InputGroup>
 
-        <Button size="lg">
+        <Button size="lg" onClick={() => handleFormOpen(true)}>
           <PlusIcon></PlusIcon>
-          <span className="hidden md:inline">Pagamento</span>
+          <span className="hidden md:inline">Cadastrar Despesa</span>
         </Button>
       </div>
 
@@ -196,6 +220,22 @@ function Expenses() {
           <ExpenseItem debt={v} />
         ))}
       </div>
+
+      {/*Form do pagamento*/}
+      <Dialog open={formOpen} onOpenChange={handleFormOpen}>
+        <DialogContent className={"max-w-2xl! w-full!"}>
+          <DialogHeader>
+            <DialogTitle className="text-primary-text font-bold text-xl">
+              Cadastrar Despesa
+            </DialogTitle>
+          </DialogHeader>
+
+          <ExpenseForm
+            onSubmit={handleSubmit}
+            selectOptions={batchFormData()}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
