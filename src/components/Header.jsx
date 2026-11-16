@@ -1,7 +1,8 @@
 import favicon from "../assets/logo.png";
 import { NavLink, Link } from "react-router-dom";
 import { FaDollarSign } from "react-icons/fa";
-import { MdPeople } from "react-icons/md";
+import { IoIosSend } from "react-icons/io";
+import { MdPeople, MdOutlineAttachMoney } from "react-icons/md";
 
 function Header() {
   return (
@@ -15,39 +16,39 @@ function Header() {
           </h1>
         </div>
 
-        <nav className="absolute left-1/2 -translate-x-1/2 flex gap-6 text-sm text-background">
+        <nav className="absolute left-1/2 -translate-x-1/2 flex gap-2 text-sm text-background">
           <NavLink
             to="/despesas"
             className={({ isActive }) =>
-              `flex items-center gap-2 px-4 py-1 ${
+              `flex items-center gap-1 px-2 py-1 ${
                 isActive
                   ? "text-background border-b-3"
                   : "hover:text-background text-background/60"
               }`
             }
           >
-            <FaDollarSign></FaDollarSign>
+            <MdOutlineAttachMoney />
             <span>Despesas</span>
           </NavLink>
 
           <NavLink
             to="/solicitacoes"
             className={({ isActive }) =>
-              `flex items-center gap-2 px-4 py-1 ${
+              `flex items-center gap-1 px-2 py-1 ${
                 isActive
                   ? "text-background border-b-3"
                   : "hover:text-background text-background/60"
               }`
             }
           >
-            <FaDollarSign></FaDollarSign>
+            <IoIosSend />
             <span>Solicitações</span>
           </NavLink>
 
           <NavLink
             to="/prestadores"
             className={({ isActive }) =>
-              `flex items-center gap-2 px-4 py-1 ${
+              `flex items-center gap-1 px-2 py-1 ${
                 isActive
                   ? "text-background border-b-3"
                   : "hover:text-background text-background/60"

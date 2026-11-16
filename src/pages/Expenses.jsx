@@ -18,6 +18,10 @@ import { createExpense } from "@/features/expense/services/expenseService";
 import { batchFormData } from "@/features/paymentRequest/services/paymentRequestService";
 import ExpensePagination from "@/features/expense/components/ExpensePagination";
 import { getExpenses } from "@/features/expense/services/expenseService";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { GoAlertFill } from "react-icons/go";
+import { FaCheck } from "react-icons/fa6";
 
 function Expenses() {
   const [expenses, setExpenses] = useState([]);
@@ -46,7 +50,7 @@ function Expenses() {
     }
 
     loadExpenses();
-  }, [page]);
+  }, [page, expenses]);
 
   function handleFormOpen(open) {
     setFormOpen(open);
@@ -94,6 +98,18 @@ function Expenses() {
           <span className="hidden md:inline">Cadastrar Despesa</span>
         </Button>
       </div>
+
+      <Tabs className="px-8 mt-2 mb-4" defaultValues="pendentes">
+        <TabsList>
+          <TabsTrigger value="pendentes">Pendentes</TabsTrigger>
+
+          <TabsTrigger value="atrasadas">Atrasadas</TabsTrigger>
+
+          <TabsTrigger value="solicitadas">Solicitadas</TabsTrigger>
+
+          <TabsTrigger value="pago">Pagas</TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       <ExpensePagination
         expenses={expenses}

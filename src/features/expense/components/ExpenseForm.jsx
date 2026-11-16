@@ -36,9 +36,6 @@ function ExpenseForm({
   // Adiciona os dados iniciais nos campos do form
   useEffect(() => {
     const payload = { ...emptyValues, ...initialData };
-
-    payload["dataPrazo"] = formatDate(payload.dataPagamento);
-
     reset(payload);
   }, [initialData]);
 
@@ -83,18 +80,6 @@ function ExpenseForm({
       />
 
       <Controller
-        name="valorTotal"
-        rules={{ required: true, validate: () => {} }}
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field className="col-span-4">
-            <FieldLabel>Valor</FieldLabel>
-            <MoneyInput {...field}></MoneyInput>
-          </Field>
-        )}
-      />
-
-      <Controller
         name="unidade"
         rules={{ required: true, validate: () => {} }}
         control={control}
@@ -120,6 +105,18 @@ function ExpenseForm({
                 </ComboboxList>
               </ComboboxContent>
             </Combobox>
+          </Field>
+        )}
+      />
+
+      <Controller
+        name="valorTotal"
+        rules={{ required: true, validate: () => {} }}
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field className="col-span-4">
+            <FieldLabel>Valor</FieldLabel>
+            <MoneyInput {...field}></MoneyInput>
           </Field>
         )}
       />
