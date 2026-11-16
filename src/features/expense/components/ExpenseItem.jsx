@@ -5,15 +5,15 @@ import {
   ItemFooter,
   ItemHeader,
   ItemTitle,
-} from "./ui/item";
+} from "../../../components/ui/item";
 
-import { Badge } from "./ui/badge";
+import { Badge } from "../../../components/ui/badge";
 import { FaCheck } from "react-icons/fa6";
 import { AiFillDollarCircle } from "react-icons/ai";
 
-import { Button } from "./ui/button";
+import { Button } from "../../../components/ui/button";
 
-function DebtCard({ debt }) {
+function ExpenseItem({ debt }) {
   const paid = debt?.paid === debt?.total;
 
   return (
@@ -21,9 +21,9 @@ function DebtCard({ debt }) {
       <ItemHeader>
         <Badge variant="outline">{debt?.unidade || "SEDE"}</Badge>
         {!paid ? (
-          <Badge variant="destructive">{`R$ ${debt.total - debt.paid},00`}</Badge>
+          <Badge variant="destructive">Pendente</Badge>
         ) : (
-          <Badge className="bg-green-600">
+          <Badge className="bg-green-400">
             <FaCheck /> Pago
           </Badge>
         )}
@@ -35,18 +35,19 @@ function DebtCard({ debt }) {
       </ItemContent>
 
       <ItemFooter>
-        <div>
-          <span className="text-xs text-muted-foreground">Total: </span>
-          <span className="">R$ {debt.total},00</span>
-        </div>
+        {!paid ? (
+          <p className="text-muted-foreground">{`R$ ${debt.paid},00 / ${debt.total},00`}</p>
+        ) : (
+          <p className="text-muted-foreground">{`R$ ${debt.total},00`}</p>
+        )}
 
         {!paid && (
           <Button
             variant="outline"
-            className="rounded-full px-8 border-primary text-primary text-sm"
+            className="px-4 text-sm text-primary border-primary rounded-full"
           >
             <AiFillDollarCircle />
-            Pagar
+            Solicitar Pag.
           </Button>
         )}
       </ItemFooter>
@@ -54,4 +55,4 @@ function DebtCard({ debt }) {
   );
 }
 
-export default DebtCard;
+export default ExpenseItem;

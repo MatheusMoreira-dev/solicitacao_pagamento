@@ -1,9 +1,9 @@
 import { Sheet, SheetContent, SheetHeader } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import PaymentDoc from "@/components/PaymentDoc";
+import PaymentRequestDoc from "@/features/paymentRequest/components/PaymentRequestDoc";
 import { Printer, Download, Trash, Edit, Repeat } from "lucide-react";
 
-function PaymentDetails({ payment, open, onOpenChange }) {
+function PaymentRequestDetails({ payment, open, onOpenChange }) {
   return (
     <div>
       <Sheet open={open} onOpenChange={onOpenChange}>
@@ -38,7 +38,7 @@ function PaymentDetails({ payment, open, onOpenChange }) {
 
           <div className="px-4 overflow-y-auto">
             <div>
-              <PaymentDoc payment={payment}></PaymentDoc>
+              <PaymentRequestDoc payment={payment}></PaymentRequestDoc>
             </div>
           </div>
         </SheetContent>
@@ -47,4 +47,4 @@ function PaymentDetails({ payment, open, onOpenChange }) {
   );
 }
 
-export default PaymentDetails;
+export default PaymentRequestDetails;

@@ -1,18 +1,22 @@
-import PaymentItem from "./PaymentItem";
+import PaymentRequestItem from "./PaymentRequestItem";
 
-function PaymentsList({ payments = [], onSelectPayment, handleRepeatAction }) {
+function PaymentRequestList({
+  payments = [],
+  onSelectPayment,
+  handleRepeatAction,
+}) {
   return (
     <div className="grid lg:grid-cols-3 md:grid-cols-2 min-h-0 flex-1 gap-2 px-8 py-2">
       {payments.map((p) => (
-        <PaymentItem
+        <PaymentRequestItem
           key={p.id}
           payment={p}
           onClick={() => onSelectPayment(p)}
           handleRepeatAction={handleRepeatAction}
-        ></PaymentItem>
+        ></PaymentRequestItem>
       ))}
     </div>
   );
 }
 
-export default PaymentsList;
+export default PaymentRequestList;

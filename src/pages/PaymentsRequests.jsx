@@ -1,5 +1,5 @@
-import PaymentsList from "../components/PaymentsList";
-import PaymentForm from "@/components/PaymentForm";
+import PaymentRequestList from "../features/paymentRequest/components/PaymentRequestList";
+import PaymentRequestForm from "@/features/paymentRequest/components/PaymentRequestForm";
 import {
   InputGroup,
   InputGroupAddon,
@@ -25,12 +25,16 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { PlusIcon, Search, X } from "lucide-react";
-import PaymentDetails from "@/components/PaymentDetails";
+import PaymentRequestDetails from "@/features/paymentRequest/components/PaymentRequestDetails";
 import { useState, useEffect } from "react";
-import { batchFormData, createPayment, listenPayments } from "@/services/api";
+import {
+  batchFormData,
+  createPayment,
+  listenPayments,
+} from "@/features/paymentRequest/services/paymentRequestService";
 import { normalizeString, extractObjValues } from "@/services/utils";
 
-function Payments() {
+function PaymentsRequests() {
   const [search, setSearch] = useState("");
   const [payments, setPayments] = useState([]);
   const [filterPayments, setFilterPayments] = useState([]);
@@ -160,18 +164,18 @@ function Payments() {
           </Button>
         </div>
 
-        <PaymentsList
+        <PaymentRequestList
           handleRepeatAction={handleRepeatAction}
           onSelectPayment={handleDetailsOpen}
           payments={filterPayments}
-        ></PaymentsList>
+        ></PaymentRequestList>
 
         {/*Detalhes do pagamento*/}
-        <PaymentDetails
+        <PaymentRequestDetails
           payment={payment}
           open={detailsOpen}
           onOpenChange={setDetailsOpen}
-        ></PaymentDetails>
+        ></PaymentRequestDetails>
 
         {/*Form do pagamento*/}
         <Dialog open={formOpen} onOpenChange={handleFormOpen}>
@@ -182,7 +186,7 @@ function Payments() {
               </DialogTitle>
             </DialogHeader>
 
-            <PaymentForm
+            <PaymentRequestForm
               selectOptions={batchFormData()}
               initialData={payment}
               onSubmit={handleSave}
@@ -204,4 +208,4 @@ function Payments() {
   );
 }
 
-export default Payments;
+export default PaymentsRequests;

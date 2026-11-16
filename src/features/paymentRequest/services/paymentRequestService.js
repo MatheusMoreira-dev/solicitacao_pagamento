@@ -1,4 +1,4 @@
-import app from "./firebase";
+import app from "../../../services/firebase/config";
 import {
   getDatabase,
   ref,

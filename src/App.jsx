@@ -1,8 +1,8 @@
 import "./App.css";
 import Home from "./pages/Home";
-import Payments from "./pages/Payments";
+import PaymentsRequests from "./pages/PaymentsRequests";
 import ServiceProviders from "./pages/ServiceProviders";
-import Debts from "./pages/Debts";
+import Expenses from "./pages/Expenses";
 import Header from "@/components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -14,10 +14,10 @@ function App() {
 
         <main className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-tertiary">
           <Routes>
-            <Route path="/" element={<Payments />} />
-            <Route path="/pagamentos" element={<Payments />} />
+            <Route path="/" element={<PaymentsRequests />} />
+            <Route path="/solicitacoes" element={<PaymentsRequests />} />
             <Route path="/prestadores" element={<ServiceProviders />} />
-            <Route path="/dividas" element={<Debts />} />
+            <Route path="/despesas" element={<Expenses />} />
           </Routes>
         </main>
       </BrowserRouter>

@@ -262,7 +262,7 @@ function DocFooter({ payment }) {
   );
 }
 
-function PaymentDoc({ payment }) {
+function PaymentRequestDoc({ payment }) {
   return (
     <article className="mx-auto flex min-h-[297mm] w-[210mm] flex-col bg-white p-[4mm] text-black">
       <DocHeader payment={payment} />
@@ -272,4 +272,4 @@ function PaymentDoc({ payment }) {
   );
 }
 
-export default PaymentDoc;
+export default PaymentRequestDoc;

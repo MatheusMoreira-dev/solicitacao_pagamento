@@ -4,9 +4,9 @@ import { FaDollarSign } from "react-icons/fa";
 import { useReactToPrint } from "react-to-print";
 import { formatarMoedaPTBR, millisecondsToPTBRDate } from "@/services/utils";
 import { useRef } from "react";
-import PaymentDoc from "./PaymentDoc";
+import PaymentRequestDoc from "./PaymentRequestDoc";
 
-function PaymentItem({ payment, onClick, handleRepeatAction }) {
+function PaymentRequestItem({ payment, onClick, handleRepeatAction }) {
   const docRef = useRef(null);
 
   function handleAction(e, callback, ...args) {
@@ -70,11 +70,11 @@ function PaymentItem({ payment, onClick, handleRepeatAction }) {
 
       <div className="fixed left-0 top-0 -z-50 h-0 w-0 overflow-hidden">
         <div ref={docRef}>
-          <PaymentDoc payment={payment} />
+          <PaymentRequestDoc payment={payment} />
         </div>
       </div>
     </div>
   );
 }
 
-export default PaymentItem;
+export default PaymentRequestItem;

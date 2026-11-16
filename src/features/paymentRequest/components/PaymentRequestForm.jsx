@@ -15,7 +15,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useEffect } from "react";
 import { formatDate } from "@/services/utils";
 
-function PaymentForm({
+function PaymentRequestForm({
   selectOptions = {},
   initialData = {},
   onSubmit,
@@ -262,4 +262,4 @@ function PaymentForm({
   );
 }
 
-export default PaymentForm;
+export default PaymentRequestForm;

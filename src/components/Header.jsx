@@ -17,7 +17,7 @@ function Header() {
 
         <nav className="absolute left-1/2 -translate-x-1/2 flex gap-6 text-sm text-background">
           <NavLink
-            to="/dividas"
+            to="/despesas"
             className={({ isActive }) =>
               `flex items-center gap-2 px-4 py-1 ${
                 isActive
@@ -27,11 +27,11 @@ function Header() {
             }
           >
             <FaDollarSign></FaDollarSign>
-            <span>Dívidas</span>
+            <span>Despesas</span>
           </NavLink>
 
           <NavLink
-            to="/pagamentos"
+            to="/solicitacoes"
             className={({ isActive }) =>
               `flex items-center gap-2 px-4 py-1 ${
                 isActive
@@ -41,7 +41,7 @@ function Header() {
             }
           >
             <FaDollarSign></FaDollarSign>
-            <span>Pagamentos</span>
+            <span>Solicitações</span>
           </NavLink>
 
           <NavLink
