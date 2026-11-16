@@ -8,11 +8,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="bg-background w-full h-dvh overflow-hidden flex flex-col">
+    <div className="h-dvh flex flex-col bg-background overflow-hidden">
       <BrowserRouter>
         <Header />
 
-        <main className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-tertiary">
+        <main className="flex-1 min-h-0">
           <Routes>
             <Route path="/" element={<PaymentsRequests />} />
             <Route path="/solicitacoes" element={<PaymentsRequests />} />

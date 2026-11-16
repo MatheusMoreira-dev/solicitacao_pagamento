@@ -13,13 +13,13 @@ import { AiFillDollarCircle } from "react-icons/ai";
 
 import { Button } from "../../../components/ui/button";
 
-function ExpenseItem({ debt }) {
-  const paid = debt?.paid === debt?.total;
+function ExpenseItem({ expense }) {
+  const paid = expense?.paid === expense?.total;
 
   return (
     <Item variant="outline" className="relative overflow-hidden">
       <ItemHeader>
-        <Badge variant="outline">{debt?.unidade || "SEDE"}</Badge>
+        <Badge variant="outline">{expense.unidade?.nome || "SEDE"}</Badge>
         {!paid ? (
           <Badge variant="destructive">Pendente</Badge>
         ) : (
@@ -30,15 +30,15 @@ function ExpenseItem({ debt }) {
       </ItemHeader>
 
       <ItemContent>
-        <ItemTitle>{debt.prestador}</ItemTitle>
-        <ItemDescription>{debt.descricao}</ItemDescription>
+        <ItemTitle>{expense.prestador?.razaoSocial}</ItemTitle>
+        <ItemDescription>{expense.descricao}</ItemDescription>
       </ItemContent>
 
       <ItemFooter>
         {!paid ? (
-          <p className="text-muted-foreground">{`R$ ${debt.paid},00 / ${debt.total},00`}</p>
+          <p className="text-muted-foreground">{`R$ ${expense.paid},00 / ${expense.total},00`}</p>
         ) : (
-          <p className="text-muted-foreground">{`R$ ${debt.total},00`}</p>
+          <p className="text-muted-foreground">{`R$ ${expense.total},00`}</p>
         )}
 
         {!paid && (
