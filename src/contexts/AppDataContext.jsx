@@ -5,16 +5,9 @@ const AppDataContext = createContext({});
 
 // Wrapper com contexto para os nós filhos
 export function AppDataProvider({ children }) {
-  const [expenses, setExpenses] = useState([]);
   const [serviceProviders, setServiceProviders] = useState([]);
 
   useEffect(() => {}, []);
-
-  async function handleAddExpense(expense) {}
-
-  async function handleUpdateExpense(id, data) {}
-
-  async function handleDeleteExpense(id) {}
 
   async function handleAddServiceProvider(expense) {}
 
@@ -25,12 +18,7 @@ export function AppDataProvider({ children }) {
   return (
     <AppDataContext.Provider
       value={{
-        expenses,
         serviceProviders,
-
-        addExpense: handleAddExpense,
-        deleteExpense: handleDeleteExpense,
-        updateExpense: handleUpdateExpense,
 
         addServiceProvider: handleAddServiceProvider,
         deleteServiceProvider: handleDeleteServiceProvider,

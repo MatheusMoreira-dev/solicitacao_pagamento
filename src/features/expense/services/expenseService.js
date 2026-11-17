@@ -8,6 +8,7 @@ import {
   limit,
   startAfter,
   getDocs,
+  onSnapshot,
 } from "firebase/firestore";
 
 import { db } from "@/services/firebase/config";
@@ -29,7 +30,7 @@ export async function createExpense(expense) {
 
 const PAGE_SIZE = 20;
 
-// Retorna um intervalo de dívidas de acordo com o status e o último objeto
+// Retorna um intervalo (último doc até o PAGE_SIZE) de dívidas de acordo com o status e o último objeto
 export async function getExpenses({ status, lastDoc }) {
   const constraints = [orderBy("lastUpdate", "desc"), limit(PAGE_SIZE)];
 
@@ -53,4 +54,38 @@ export async function getExpenses({ status, lastDoc }) {
     lastDocUpdate,
     hasMore: snapshot.docs.length === PAGE_SIZE,
   };
+}
+
+// Escuta um intervalo (último doc até o PAGE_SIZE) de dívidas de acordo com o status e o último objeto
+export async function subscribeExpensesInterval({
+  status,
+  lastDoc,
+  onChange,
+  onError,
+}) {
+  const constraints = [orderBy("lastUpdate", "desc"), limit(PAGE_SIZE)];
+
+  if (status) constraints.unshift(where("status", "==", status));
+
+  if (lastDoc) constraints.push(startAfter(lastDoc));
+
+  const q = query(expensesRef, ...constraints);
+
+  return (
+    onSnapshot(q, (snapshot) => {
+      const expenses = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      const lastDocUpdate = snapshot.docs.at(-1) ?? null;
+
+      onChange({
+        expenses,
+        lastDocUpdate,
+        hasMore: snapshot.docs.length === PAGE_SIZE,
+      });
+    }),
+    onError
+  );
 }

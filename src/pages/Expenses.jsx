@@ -20,36 +20,21 @@ import ExpensePagination from "@/features/expense/components/ExpensePagination";
 import { getExpenses } from "@/features/expense/services/expenseService";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PaymentRequestForm from "@/features/paymentRequest/components/PaymentRequestForm";
+import { useExpenses } from "@/features/expense/context/ExpensesContext";
 
 function Expenses() {
-  const [expenses, setExpenses] = useState([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(false);
-  const [pageCursors, setPageCursors] = useState({});
+  const {
+    expenses,
+    page,
+    hasMore,
+    loading,
+    nextPage,
+    previousPage,
+    addExpense,
+  } = useExpenses();
+
   const [formOpen, setFormOpen] = useState(false);
   const [formPayment, setFormPayment] = useState(false);
-
-  useEffect(() => {
-    async function loadExpenses() {
-      const lastDoc = pageCursors[page - 1] ?? null;
-
-      const result = await getExpenses({
-        lastDoc,
-      });
-
-      setExpenses(result.expenses);
-      setHasMore(result.hasMore);
-
-      if (result.lastDoc) {
-        setPageCursors((prev) => ({
-          ...prev,
-          [page]: result.lastDoc,
-        }));
-      }
-    }
-
-    loadExpenses();
-  }, [page, expenses]);
 
   function handleFormOpen(open) {
     setFormOpen(open);
@@ -114,8 +99,10 @@ function Expenses() {
       <ExpensePagination
         expenses={expenses}
         page={page}
-        setPage={setPage}
         hasMore={hasMore}
+        loading={loading}
+        onNext={nextPage}
+        onPrevious={previousPage}
         handlePaymentRequest={handleFormPayment}
       />
 

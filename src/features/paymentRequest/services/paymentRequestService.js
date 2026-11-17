@@ -9,6 +9,15 @@ import {
   remove,
 } from "firebase/database";
 
+import {
+  orderBy,
+  limit,
+  where,
+  startAfter,
+  query,
+  onSnapshot,
+} from "firebase/firestore";
+
 const db = getDatabase(app);
 const paymentsRef = ref(db, "pagamentos/");
 
@@ -37,6 +46,40 @@ function listenPayments(callback, cancelCallBack) {
   );
 
   return unsubscribe;
+}
+
+// Escuta um intervalo (último doc até o PAGE_SIZE) de solicitações de pagamentos de acordo com o status e o último objeto
+export async function subscribePaymentsRequestsInterval({
+  status,
+  lastDoc,
+  onChange,
+  onError,
+}) {
+  const constraints = [orderBy("lastUpdate", "desc"), limit(PAGE_SIZE)];
+
+  if (status) constraints.unshift(where("status", "==", status));
+
+  if (lastDoc) constraints.push(startAfter(lastDoc));
+
+  const q = query(expensesRef, ...constraints);
+
+  return (
+    onSnapshot(q, (snapshot) => {
+      const expenses = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      const lastDocUpdate = snapshot.docs.at(-1) ?? null;
+
+      onChange({
+        expenses,
+        lastDocUpdate,
+        hasMore: snapshot.docs.length === PAGE_SIZE,
+      });
+    }),
+    onError
+  );
 }
 
 function updatePayment(payment) {
