@@ -43,7 +43,11 @@ function ExpenseItem({ expense, handlePaymentRequest }) {
   const paid = expense?.paid === expense?.valorTotal;
 
   return (
-    <Item variant="outline" size="sm" className="relative overflow-hidden">
+    <Item
+      variant="outline"
+      size="sm"
+      className="relative overflow-hidden hover:scale-105 hover:ring-1 hover:ring-secondary transition-transform duration-300 cursor-pointer"
+    >
       <ItemHeader>
         <Badge variant="outline">{expense.unidade?.nome || "SEDE"}</Badge>
         {badges[expense.status] ?? badges.pendente}
