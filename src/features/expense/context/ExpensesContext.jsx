@@ -1,5 +1,8 @@
 import { createContext, useContext } from "react";
-import { getExpenses } from "@/features/expense/services/expenseService";
+import {
+  getExpenses,
+  createExpense,
+} from "@/features/expense/services/expenseService";
 import { useState, useEffect } from "react";
 
 const ExpensesContext = createContext({});
@@ -11,33 +14,31 @@ export function ExpensesProvider({ children }) {
   const [pageCursors, setPageCursors] = useState({});
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function loadExpenses() {
-      try {
-        setLoading(true);
+  async function loadExpenses(pageNumber = page) {
+    try {
+      setLoading(true);
 
-        const lastDoc = pageCursors[page - 1] ?? null;
+      const lastDoc = pageCursors[pageNumber - 1] ?? null;
 
-        const result = await getExpenses({
-          lastDoc,
-        });
+      const result = await getExpenses({ lastDoc });
 
-        setExpenses(result.expenses);
-        setHasMore(result.hasMore);
+      setExpenses(result.expenses);
+      setHasMore(result.hasMore);
 
-        if (result.lastDoc) {
-          setPageCursors((prev) => ({
-            ...prev,
-            [page]: result.lastDoc,
-          }));
-        }
-      } catch (error) {
-        console.error("Erro ao carregar despesas:", error);
-      } finally {
-        setLoading(false);
+      if (result.lastDoc) {
+        setPageCursors((prev) => ({
+          ...prev,
+          [pageNumber]: result.lastDoc,
+        }));
       }
+    } catch (error) {
+      console.error("Erro ao carregar despesas:", error);
+    } finally {
+      setLoading(false);
     }
+  }
 
+  useEffect(() => {
     loadExpenses();
   }, [page]);
 
@@ -53,7 +54,16 @@ export function ExpensesProvider({ children }) {
     setPage((prev) => prev - 1);
   }
 
-  async function handleAddExpense(expense) {}
+  async function handleAddExpense(expense) {
+    try {
+      await createExpense(expense);
+
+      setPage(1);
+      await loadExpenses(1);
+    } catch (error) {
+      console.error("Erro ao criar despesa:", error);
+    }
+  }
 
   async function handleUpdateExpense(id, data) {}
 

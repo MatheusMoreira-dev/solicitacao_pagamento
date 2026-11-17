@@ -17,10 +17,10 @@ import { useState, useEffect } from "react";
 import { createExpense } from "@/features/expense/services/expenseService";
 import { batchFormData } from "@/features/paymentRequest/services/paymentRequestService";
 import ExpensePagination from "@/features/expense/components/ExpensePagination";
-import { getExpenses } from "@/features/expense/services/expenseService";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PaymentRequestForm from "@/features/paymentRequest/components/PaymentRequestForm";
 import { useExpenses } from "@/features/expense/context/ExpensesContext";
+import { useServicesProviders } from "@/features/serviceProviders/context/ServicesProvidersContext";
 
 function Expenses() {
   const {
@@ -33,6 +33,7 @@ function Expenses() {
     addExpense,
   } = useExpenses();
 
+  const { serviceProviders } = useServicesProviders();
   const [formOpen, setFormOpen] = useState(false);
   const [formPayment, setFormPayment] = useState(false);
 
@@ -45,12 +46,8 @@ function Expenses() {
   }
 
   async function handleSubmit(values) {
-    try {
-      await createExpense(values);
-      setFormOpen(false);
-    } catch (err) {
-      console.log(err);
-    }
+    addExpense(values);
+    setFormOpen(false);
   }
 
   return (
@@ -118,6 +115,7 @@ function Expenses() {
           <ExpenseForm
             onSubmit={handleSubmit}
             selectOptions={batchFormData()}
+            initialData={{ prestadores: serviceProviders }}
           />
         </DialogContent>
       </Dialog>

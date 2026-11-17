@@ -1,0 +1,3 @@
+function ExpenseDetail({ expense }) {
+  return;
+}
