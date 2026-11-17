@@ -39,11 +39,11 @@ const badges = {
   ),
 };
 
-function ExpenseItem({ expense }) {
-  const paid = expense?.paid === expense?.valorTotal || expense.paid != null;
+function ExpenseItem({ expense, handlePaymentRequest }) {
+  const paid = expense?.paid === expense?.valorTotal;
 
   return (
-    <Item variant="outline" className="relative overflow-hidden">
+    <Item variant="outline" size="sm" className="relative overflow-hidden">
       <ItemHeader>
         <Badge variant="outline">{expense.unidade?.nome || "SEDE"}</Badge>
         {badges[expense.status] ?? badges.pendente}
@@ -56,19 +56,19 @@ function ExpenseItem({ expense }) {
 
       <ItemFooter>
         {!paid ? (
-          <p className="text-muted-foreground">{`${formatarMoedaPTBR(expense.paid || 0)} / ${formatarMoedaPTBR(expense.valorTotal)}`}</p>
+          <>
+            <p className="text-muted-foreground">{`${formatarMoedaPTBR(expense.paid || 0)} / ${formatarMoedaPTBR(expense.valorTotal)}`}</p>
+            <Button
+              onClick={handlePaymentRequest}
+              variant="outline"
+              className="px-4 text-sm text-primary border-primary rounded-full"
+            >
+              <AiFillDollarCircle />
+              Solicitar Pag.
+            </Button>
+          </>
         ) : (
           <p className="text-muted-foreground">{`${formatarMoedaPTBR(expense.valorTotal)}`}</p>
-        )}
-
-        {!paid && (
-          <Button
-            variant="outline"
-            className="px-4 text-sm text-primary border-primary rounded-full"
-          >
-            <AiFillDollarCircle />
-            Solicitar Pag.
-          </Button>
         )}
       </ItemFooter>
     </Item>

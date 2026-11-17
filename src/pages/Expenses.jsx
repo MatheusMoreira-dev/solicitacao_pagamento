@@ -19,9 +19,7 @@ import { batchFormData } from "@/features/paymentRequest/services/paymentRequest
 import ExpensePagination from "@/features/expense/components/ExpensePagination";
 import { getExpenses } from "@/features/expense/services/expenseService";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
-import { GoAlertFill } from "react-icons/go";
-import { FaCheck } from "react-icons/fa6";
+import PaymentRequestForm from "@/features/paymentRequest/components/PaymentRequestForm";
 
 function Expenses() {
   const [expenses, setExpenses] = useState([]);
@@ -29,6 +27,7 @@ function Expenses() {
   const [hasMore, setHasMore] = useState(false);
   const [pageCursors, setPageCursors] = useState({});
   const [formOpen, setFormOpen] = useState(false);
+  const [formPayment, setFormPayment] = useState(false);
 
   useEffect(() => {
     async function loadExpenses() {
@@ -54,6 +53,10 @@ function Expenses() {
 
   function handleFormOpen(open) {
     setFormOpen(open);
+  }
+
+  function handleFormPayment(open) {
+    setFormPayment(open);
   }
 
   async function handleSubmit(values) {
@@ -102,11 +105,8 @@ function Expenses() {
       <Tabs className="px-8 mt-2 mb-4" defaultValues="pendentes">
         <TabsList>
           <TabsTrigger value="pendentes">Pendentes</TabsTrigger>
-
           <TabsTrigger value="atrasadas">Atrasadas</TabsTrigger>
-
           <TabsTrigger value="solicitadas">Solicitadas</TabsTrigger>
-
           <TabsTrigger value="pago">Pagas</TabsTrigger>
         </TabsList>
       </Tabs>
@@ -116,9 +116,10 @@ function Expenses() {
         page={page}
         setPage={setPage}
         hasMore={hasMore}
+        handlePaymentRequest={handleFormPayment}
       />
 
-      {/*Form do pagamento*/}
+      {/*Form Cadastrar Dívida*/}
       <Dialog open={formOpen} onOpenChange={handleFormOpen}>
         <DialogContent className={"max-w-2xl! w-full!"}>
           <DialogHeader>
@@ -131,6 +132,19 @@ function Expenses() {
             onSubmit={handleSubmit}
             selectOptions={batchFormData()}
           />
+        </DialogContent>
+      </Dialog>
+
+      {/*Form Cadastrar Pagamento*/}
+      <Dialog open={formPayment} onOpenChange={handleFormPayment}>
+        <DialogContent className={"max-w-2xl! w-full!"}>
+          <DialogHeader>
+            <DialogTitle className="text-primary-text font-bold text-xl">
+              Solicitar Pagamento
+            </DialogTitle>
+          </DialogHeader>
+
+          <PaymentRequestForm />
         </DialogContent>
       </Dialog>
     </div>

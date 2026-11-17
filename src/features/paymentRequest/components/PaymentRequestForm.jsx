@@ -14,6 +14,18 @@ import { Button } from "@/components/ui/button";
 import { useForm, Controller } from "react-hook-form";
 import { useEffect } from "react";
 import { formatDate } from "@/services/utils";
+import { Separator } from "@/components/ui/separator";
+
+const emptyValues = {
+  unidade: null,
+  setor: null,
+  solicitante: null,
+  prestador: null,
+  valor: "",
+  dataPagamento: "",
+  metodoPagamento: null,
+  descricao: "",
+};
 
 function PaymentRequestForm({
   selectOptions = {},
@@ -21,17 +33,6 @@ function PaymentRequestForm({
   onSubmit,
   onCancel,
 }) {
-  const emptyValues = {
-    unidade: null,
-    setor: null,
-    solicitante: null,
-    prestador: null,
-    valor: "",
-    dataPagamento: "",
-    metodoPagamento: null,
-    descricao: "",
-  };
-
   const { handleSubmit, control, reset } = useForm({
     defaultValues: emptyValues,
   });
@@ -50,36 +51,6 @@ function PaymentRequestForm({
       onSubmit={handleSubmit(onSubmit)}
       className="w-full min-w-0 grid grid-cols-12 gap-4 gap-y-6"
     >
-      <Controller
-        name="unidade"
-        rules={{ required: true, validate: () => {} }}
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field className="col-span-3 relative">
-            <FieldLabel>Unidade</FieldLabel>
-            <Combobox
-              {...field}
-              value={field.value}
-              onValueChange={field.onChange}
-              itemToStringLabel={(item) => item?.nome ?? ""}
-              items={selectOptions?.unidades || []}
-            >
-              <ComboboxInput placeholder="Selecione uma Unidade"></ComboboxInput>
-              <ComboboxContent>
-                <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
-                <ComboboxList>
-                  {(item) => (
-                    <ComboboxItem key={item.cnpj} value={item}>
-                      {item.nome}
-                    </ComboboxItem>
-                  )}
-                </ComboboxList>
-              </ComboboxContent>
-            </Combobox>
-          </Field>
-        )}
-      />
-
       <Controller
         name="setor"
         rules={{ required: true, validate: () => {} }}
@@ -115,7 +86,7 @@ function PaymentRequestForm({
         rules={{ required: true, validate: () => {} }}
         control={control}
         render={({ field, fieldState }) => (
-          <Field className="col-span-5">
+          <Field className="col-span-8">
             <FieldLabel>Solicitante</FieldLabel>
 
             <Combobox
@@ -142,40 +113,7 @@ function PaymentRequestForm({
         )}
       />
 
-      <Controller
-        name="prestador"
-        rules={{ required: true, validate: () => {} }}
-        control={control}
-        render={({ field, fieldState }) => (
-          <Field className="col-span-full">
-            <FieldLabel>Prestador</FieldLabel>
-            <Combobox
-              {...field}
-              value={field.value}
-              onValueChange={field.onChange}
-              itemToStringLabel={(prestadores) =>
-                prestadores.razaoSocial + " - " + prestadores.nomeFantasia
-              }
-              items={selectOptions?.prestadores}
-            >
-              <ComboboxInput placeholder="Selecione o nome do solicitante"></ComboboxInput>
-
-              <ComboboxContent>
-                <ComboboxEmpty>Item não encontrado</ComboboxEmpty>
-                <ComboboxList>
-                  {(item) => (
-                    <ComboboxItem key={item.cnpj} value={item}>
-                      {item?.nomeFantasia
-                        ? item.razaoSocial + " - " + item.nomeFantasia
-                        : item.razaoSocial}
-                    </ComboboxItem>
-                  )}
-                </ComboboxList>
-              </ComboboxContent>
-            </Combobox>
-          </Field>
-        )}
-      />
+      <Separator className="col-span-full" />
 
       <Controller
         name="valor"
