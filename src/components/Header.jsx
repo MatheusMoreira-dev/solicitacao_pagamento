@@ -1,6 +1,5 @@
 import favicon from "../assets/logo.png";
 import { NavLink, Link } from "react-router-dom";
-import { FaDollarSign } from "react-icons/fa";
 import { IoIosSend } from "react-icons/io";
 import { MdPeople, MdOutlineAttachMoney } from "react-icons/md";
 

@@ -9,7 +9,7 @@ import {
 
 import { Badge } from "../../../components/ui/badge";
 import { FaCheck } from "react-icons/fa6";
-import { AiFillDollarCircle } from "react-icons/ai";
+import { IoIosSend } from "react-icons/io";
 
 import { Button } from "../../../components/ui/button";
 import { GoAlertFill } from "react-icons/go";
@@ -55,25 +55,23 @@ function ExpenseItem({ expense, handlePaymentRequest }) {
 
       <ItemContent>
         <ItemTitle>{expense.prestador?.razaoSocial}</ItemTitle>
+        {!paid ? (
+          <p className="text-muted-foreground">{`${formatarMoedaPTBR(expense.paid || 0)} / ${formatarMoedaPTBR(expense.valorTotal)}`}</p>
+        ) : (
+          <p className="text-muted-foreground">{`${formatarMoedaPTBR(expense.valorTotal)}`}</p>
+        )}
         <ItemDescription>{expense.descricao}</ItemDescription>
       </ItemContent>
 
       <ItemFooter>
-        {!paid ? (
-          <>
-            <p className="text-muted-foreground">{`${formatarMoedaPTBR(expense.paid || 0)} / ${formatarMoedaPTBR(expense.valorTotal)}`}</p>
-            <Button
-              onClick={handlePaymentRequest}
-              variant="outline"
-              className="px-4 text-sm text-primary border-primary rounded-full"
-            >
-              <AiFillDollarCircle />
-              Solicitar Pag.
+        <div className="flex justify-end w-full">
+          {!paid && (
+            <Button onClick={handlePaymentRequest} variant="ghost" size="sm">
+              <IoIosSend />
+              Solicitar
             </Button>
-          </>
-        ) : (
-          <p className="text-muted-foreground">{`${formatarMoedaPTBR(expense.valorTotal)}`}</p>
-        )}
+          )}
+        </div>
       </ItemFooter>
     </Item>
   );
