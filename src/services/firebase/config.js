@@ -6,13 +6,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBJQ_kYTgnCrVqtSUqklAh4Nrr7LmBL-4c",
-  authDomain: "documento-ci.firebaseapp.com",
-  databaseURL: "https://documento-ci-default-rtdb.firebaseio.com",
-  projectId: "documento-ci",
-  storageBucket: "documento-ci.firebasestorage.app",
-  messagingSenderId: "365704933998",
-  appId: "1:365704933998:web:e393a40cd50c61b08f2c7f",
+  apiKey: "AIzaSyCnp5IJ6IOVgxpV5gPKxkB-__IKkEndBNE",
+  authDomain: "gestao-despesas-6e842.firebaseapp.com",
+  projectId: "gestao-despesas-6e842",
+  storageBucket: "gestao-despesas-6e842.firebasestorage.app",
+  messagingSenderId: "476223555348",
+  appId: "1:476223555348:web:babc27fe9839ac1c5c6401",
 };
 
 // Initialize Firebase
