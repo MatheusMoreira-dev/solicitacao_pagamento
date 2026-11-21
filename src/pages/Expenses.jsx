@@ -13,27 +13,15 @@ import {
 import { Button } from "@/components/ui/button";
 import { PlusIcon, Search, X } from "lucide-react";
 import ExpenseForm from "@/features/expense/components/ExpenseForm";
-import { useState, useEffect } from "react";
-import { createExpense } from "@/features/expense/services/expenseService";
-import { batchFormData } from "@/features/paymentRequest/services/paymentRequestService";
+import { useState } from "react";
 import ExpensePagination from "@/features/expense/components/ExpensePagination";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PaymentRequestForm from "@/features/paymentRequest/components/PaymentRequestForm";
-import { useExpenses } from "@/features/expense/context/ExpensesContext";
-import { useServicesProviders } from "@/features/serviceProviders/context/ServicesProvidersContext";
+import { useExpenses } from "@/features/expense/hooks/useExpenses";
 
 function Expenses() {
-  const {
-    expenses,
-    page,
-    hasMore,
-    loading,
-    nextPage,
-    previousPage,
-    addExpense,
-  } = useExpenses();
+  const { expenses, loading, addExpense } = useExpenses();
 
-  const { serviceProviders } = useServicesProviders();
   const [formOpen, setFormOpen] = useState(false);
   const [formPayment, setFormPayment] = useState(false);
 
@@ -95,11 +83,7 @@ function Expenses() {
 
       <ExpensePagination
         expenses={expenses}
-        page={page}
-        hasMore={hasMore}
         loading={loading}
-        onNext={nextPage}
-        onPrevious={previousPage}
         handlePaymentRequest={handleFormPayment}
       />
 
@@ -112,11 +96,7 @@ function Expenses() {
             </DialogTitle>
           </DialogHeader>
 
-          <ExpenseForm
-            onSubmit={handleSubmit}
-            selectOptions={batchFormData()}
-            initialData={{ prestadores: serviceProviders }}
-          />
+          <ExpenseForm onSubmit={handleSubmit} />
         </DialogContent>
       </Dialog>
 

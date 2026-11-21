@@ -1,14 +1,20 @@
-import { createContext, useContext } from "react";
+import { createContext } from "react";
+
 import {
   createServiceProvider,
   getServiceProviders,
 } from "../services/serviceProvidersService";
+
 import { useState, useEffect } from "react";
 
-const ServicesProvidersContext = createContext({});
+export const ServicesProvidersContext = createContext({});
 
 export function ServicesProvidersProvider({ children }) {
   const [servicesProviders, setServicesProviders] = useState([]);
+
+  useEffect(() => {
+    loadServicesProviders();
+  }, []);
 
   async function loadServicesProviders() {
     try {
@@ -19,16 +25,12 @@ export function ServicesProvidersProvider({ children }) {
     }
   }
 
-  useEffect(() => {
-    loadServicesProviders();
-  }, []);
-
   async function handleAddServiceProvider(serviceProvider) {
     try {
       await createServiceProvider(serviceProvider);
       await loadServicesProviders();
     } catch (error) {
-      console.error("Erro ao criar despesa:", error);
+      console.error("Erro ao criar prestador:", error);
     }
   }
 
@@ -48,15 +50,4 @@ export function ServicesProvidersProvider({ children }) {
       {children}
     </ServicesProvidersContext.Provider>
   );
-}
-
-export function useServicesProviders() {
-  const context = useContext(ServicesProvidersContext);
-
-  if (!context)
-    throw new Error(
-      "Só é possível utilizar o useServicesProviders se o componente estiver dentro do contexto ",
-    );
-
-  return context;
 }

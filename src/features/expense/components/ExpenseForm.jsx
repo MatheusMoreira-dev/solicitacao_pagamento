@@ -13,7 +13,7 @@ import MoneyInput from "@/components/MoneyInput";
 import { Button } from "@/components/ui/button";
 import { useForm, Controller } from "react-hook-form";
 import { useEffect } from "react";
-import { formatDate } from "@/services/utils";
+import { useServicesProviders } from "@/features/serviceProviders/hooks/useServiceProviders";
 
 const emptyValues = {
   unidade: null,
@@ -23,12 +23,20 @@ const emptyValues = {
   descricao: "",
 };
 
+const unidades = [
+  { nome: "SEDE", cnpj: "1" },
+  { nome: "HUC", cnpj: "2" },
+  { nome: "NAS", cnpj: "3" },
+  { nome: "LAGOA", cnpj: "4" },
+];
+
 function ExpenseForm({
   selectOptions = {},
   initialData = emptyValues,
   onSubmit,
   onCancel,
 }) {
+  const { servicesProviders } = useServicesProviders();
   const { handleSubmit, control, reset } = useForm({
     defaultValues: emptyValues,
   });
@@ -36,6 +44,7 @@ function ExpenseForm({
   // Adiciona os dados iniciais nos campos do form
   useEffect(() => {
     const payload = { ...emptyValues, ...initialData };
+
     reset(payload);
   }, [initialData]);
 
@@ -58,7 +67,7 @@ function ExpenseForm({
               itemToStringLabel={(prestadores) =>
                 prestadores.razaoSocial + " - " + prestadores.nomeFantasia
               }
-              items={selectOptions?.prestadores}
+              items={servicesProviders}
             >
               <ComboboxInput placeholder="Selecione o nome do solicitante"></ComboboxInput>
 
@@ -91,7 +100,7 @@ function ExpenseForm({
               value={field.value}
               onValueChange={field.onChange}
               itemToStringLabel={(item) => item?.nome ?? ""}
-              items={selectOptions?.unidades || []}
+              items={unidades}
             >
               <ComboboxInput placeholder="Selecione uma Unidade"></ComboboxInput>
               <ComboboxContent>

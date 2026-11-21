@@ -8,15 +8,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
-function ExpensePagination({
-  expenses,
-  page,
-  hasMore,
-  loading,
-  onNext,
-  onPrevious,
-  handlePaymentRequest,
-}) {
+function ExpensePagination({ expenses, loading, handlePaymentRequest }) {
   return (
     <div className="flex-1 min-h-0 flex flex-col">
       <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-tertiary">
@@ -30,38 +22,6 @@ function ExpensePagination({
           ))}
         </div>
       </div>
-
-      <Pagination className="shrink-0">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious
-              href="#"
-              text="Anterior"
-              onClick={(event) => {
-                event.preventDefault();
-                onPrevious();
-              }}
-              disabled={page === 1 || loading}
-            />
-          </PaginationItem>
-
-          <PaginationItem>
-            <PaginationLink isActive>{page}</PaginationLink>
-          </PaginationItem>
-
-          <PaginationItem>
-            <PaginationNext
-              href="#"
-              text="Próxima"
-              onClick={(event) => {
-                event.preventDefault();
-                onNext();
-              }}
-              disabled={!hasMore || loading}
-            />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
     </div>
   );
 }
