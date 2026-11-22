@@ -2,6 +2,9 @@ import favicon from "../assets/logo.png";
 import { NavLink, Link } from "react-router-dom";
 import { IoIosSend } from "react-icons/io";
 import { MdPeople, MdOutlineAttachMoney } from "react-icons/md";
+import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
+import { Button } from "./ui/button";
+import { IoMdExit } from "react-icons/io";
 
 function Header() {
   return (
@@ -58,6 +61,18 @@ function Header() {
             <span>Prestadores</span>
           </NavLink>
         </nav>
+
+        <div className="flex items-center gap-0.5">
+          <Avatar>
+            <AvatarImage></AvatarImage>
+            <AvatarFallback>MA</AvatarFallback>
+          </Avatar>
+
+          <Button size="sm">
+            Sair
+            <IoMdExit />
+          </Button>
+        </div>
       </div>
     </header>
   );

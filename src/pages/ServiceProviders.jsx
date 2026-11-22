@@ -53,7 +53,7 @@ function ServiceProviders() {
     handleOpenForm(false);
   }
 
-  function handleOpenEdit(data) {
+  function handleSetEditMode(data) {
     setFormOpen(true);
     setServiceProvider(data);
   }
@@ -65,6 +65,11 @@ function ServiceProviders() {
     }
   }
 
+  const handleSetDeleteOpen = (open) => {
+    setDeleteOpen(open);
+    if (!open) setItemID(null);
+  };
+
   function handleConfirmDelete(id) {
     setDeleteOpen(true);
     setItemID(id);
@@ -74,8 +79,7 @@ function ServiceProviders() {
     const success = await delServiceProvider(itemID);
 
     if (success) {
-      setDeleteOpen(false);
-      setItemID(null);
+      handleSetDeleteOpen(false);
     }
   }
 
@@ -113,7 +117,7 @@ function ServiceProviders() {
       <ServiceProvidersPagination
         serviceProviders={servicesProviders}
         onDelete={handleConfirmDelete}
-        onEdit={handleOpenEdit}
+        onEdit={handleSetEditMode}
       />
 
       {/*Form Prestador*/}
@@ -133,7 +137,7 @@ function ServiceProviders() {
       </Dialog>
 
       {/*Alert confirmar delete */}
-      <AlertDialog open={deleteOpen} onOpenChange={handleOpenForm}>
+      <AlertDialog open={deleteOpen} onOpenChange={handleSetDeleteOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Deseja excluir?</AlertDialogTitle>

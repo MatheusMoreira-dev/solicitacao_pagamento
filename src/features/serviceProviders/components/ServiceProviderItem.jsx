@@ -19,7 +19,11 @@ function ServiceProviderItem({ serviceProvider, onDelete, onEdit }) {
     title += " - " + serviceProvider.nomeFantasia;
 
   return (
-    <Item variant="outline" size="xs" className="relative overflow-hidden">
+    <Item
+      variant="outline"
+      size="xs"
+      className="relative overflow-hidden hover:scale-105 hover:ring-1 hover:ring-secondary transition-transform duration-300 cursor-pointer"
+    >
       <ItemHeader>
         <ItemTitle>{title}</ItemTitle>
       </ItemHeader>
