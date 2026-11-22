@@ -20,10 +20,21 @@ import {
   InputGroupAddon,
   InputGroupButton,
 } from "@/components/ui/input-group";
+import { useAuth } from "@/hooks/useAuth";
 import { EyeClosedIcon, EyeOffIcon } from "lucide-react";
 import { BsGoogle } from "react-icons/bs";
 
 function Login() {
+  const { loginWithEmail } = useAuth();
+
+  async function handleLoginWithEmail(e) {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    await loginWithEmail(data.email, data.password);
+  }
+
   return (
     <main className="size-full">
       <Card size="lg" className="my-12 mx-auto w-full max-w-md">
@@ -32,10 +43,18 @@ function Login() {
         </CardHeader>
 
         <CardContent>
-          <form className="grid gap-6">
+          <form
+            id="loginForm"
+            className="grid gap-6"
+            onSubmit={handleLoginWithEmail}
+          >
             <Field>
               <FieldLabel>Email</FieldLabel>
-              <Input type="email" placeholder="exemplo@gmail.com" />
+              <Input
+                type="email"
+                placeholder="exemplo@gmail.com"
+                name="email"
+              />
             </Field>
 
             <Field>
@@ -44,6 +63,7 @@ function Login() {
                 <InputGroupInput
                   type="password"
                   placeholder="Insira a sua senha..."
+                  name="password"
                 />
                 <InputGroupAddon align="inline-end">
                   <EyeOffIcon />
@@ -54,7 +74,7 @@ function Login() {
         </CardContent>
 
         <CardFooter className="flex flex-col gap-2 justify-center">
-          <Button size="lg" className="w-full">
+          <Button size="lg" className="w-full" type="submit" form="loginForm">
             Entrar
           </Button>
 

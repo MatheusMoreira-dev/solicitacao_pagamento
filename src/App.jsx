@@ -7,9 +7,10 @@ import { ExpensesProvider } from "./features/expense/context/ExpensesContext";
 import { ServicesProvidersProvider } from "./features/serviceProviders/context/ServicesProvidersContext";
 import { MainLayout } from "@/layouts/MainLayout";
 import Login from "./pages/Login";
+import { useAuth } from "./hooks/useAuth";
 
 function App() {
-  const user = false;
+  const { user } = useAuth();
 
   return (
     <div>

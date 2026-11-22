@@ -5,8 +5,12 @@ import { MdPeople, MdOutlineAttachMoney } from "react-icons/md";
 import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { IoMdExit } from "react-icons/io";
+import { useAuth } from "@/hooks/useAuth";
 
 function Header() {
+  const { user, signOut } = useAuth();
+  const simbol = user.displayName ?? user.email;
+
   return (
     <header className="sticky top-0 h-14 bg-primary z-50 py-1 shrink-0 shadow-sm mb-5">
       <div className="flex items-center justify-between size-full mx-auto px-6 relative">
@@ -64,11 +68,11 @@ function Header() {
 
         <div className="flex items-center gap-0.5">
           <Avatar>
-            <AvatarImage></AvatarImage>
-            <AvatarFallback>MA</AvatarFallback>
+            <AvatarImage src={user?.photoURL}></AvatarImage>
+            <AvatarFallback>{simbol.slice(0, 2)?.toUpperCase()}</AvatarFallback>
           </Avatar>
 
-          <Button size="sm">
+          <Button size="sm" onClick={signOut}>
             Sair
             <IoMdExit />
           </Button>
