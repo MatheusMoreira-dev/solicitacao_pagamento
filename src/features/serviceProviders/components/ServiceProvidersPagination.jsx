@@ -1,6 +1,6 @@
 import ServiceProviderItem from "./ServiceProviderItem";
 
-function ServiceProvidersPagination({ serviceProviders, onDelete }) {
+function ServiceProvidersPagination({ serviceProviders, onDelete, onEdit }) {
   return (
     <div className="flex-1 min-h-0 flex flex-col">
       <div className="flex-1 min-h-0 overflow-y-auto scrollbar-thin scrollbar-thumb-tertiary">
@@ -10,6 +10,7 @@ function ServiceProvidersPagination({ serviceProviders, onDelete }) {
               key={v.id}
               serviceProvider={v}
               onDelete={onDelete}
+              onEdit={onEdit}
             />
           ))}
         </div>

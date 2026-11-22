@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 
-function ServiceProviderItem({ serviceProvider, onDelete }) {
+function ServiceProviderItem({ serviceProvider, onDelete, onEdit }) {
   let title = serviceProvider?.razaoSocial;
 
   if (serviceProvider?.nomeFantasia)
@@ -30,7 +30,11 @@ function ServiceProviderItem({ serviceProvider, onDelete }) {
 
       <ItemFooter>
         <ItemActions className="justify-end w-full">
-          <Button variant="outline" size="icon">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => onEdit(serviceProvider)}
+          >
             <FiEdit />
           </Button>
 

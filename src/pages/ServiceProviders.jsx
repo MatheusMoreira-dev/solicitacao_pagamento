@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/dialog";
 
 import ServiceProviderForm from "@/features/serviceProviders/components/ServiceProviderForm";
-import { createServiceProvider } from "@/features/serviceProviders/services/serviceProvidersService";
 import { useServicesProviders } from "@/features/serviceProviders/hooks/useServiceProviders";
 import {
   AlertDialog,
@@ -31,17 +30,38 @@ import {
 } from "@/components/ui/alert-dialog";
 
 function ServiceProviders() {
-  const { servicesProviders, deleteServiceProvider } = useServicesProviders();
+  const {
+    servicesProviders,
+    loading,
+    error,
+    addServiceProvider,
+    delServiceProvider,
+    editServiceProvider,
+  } = useServicesProviders();
+
   const [formOpen, setFormOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [itemID, setItemID] = useState(null);
+  const [serviceProvider, setServiceProvider] = useState(null);
 
   async function handleSubmit(values) {
-    try {
-      await createServiceProvider(values);
-      setFormOpen(false);
-    } catch (err) {
-      console.log(err);
+    const submitFunction = serviceProvider
+      ? editServiceProvider
+      : addServiceProvider;
+
+    const success = await submitFunction(values);
+    handleOpenForm(false);
+  }
+
+  function handleOpenEdit(data) {
+    setFormOpen(true);
+    setServiceProvider(data);
+  }
+
+  function handleOpenForm(open) {
+    setFormOpen(open);
+    if (!open) {
+      setTimeout(() => setServiceProvider(null), 200);
     }
   }
 
@@ -51,11 +71,9 @@ function ServiceProviders() {
   }
 
   async function handleDelete() {
-    try {
-      await deleteServiceProvider(itemID);
-    } catch (err) {
-      console.log(err);
-    } finally {
+    const success = await delServiceProvider(itemID);
+
+    if (success) {
       setDeleteOpen(false);
       setItemID(null);
     }
@@ -95,28 +113,35 @@ function ServiceProviders() {
       <ServiceProvidersPagination
         serviceProviders={servicesProviders}
         onDelete={handleConfirmDelete}
+        onEdit={handleOpenEdit}
       />
 
-      {/*Form Cadastrar Prestador*/}
-      <Dialog open={formOpen} onOpenChange={setFormOpen}>
+      {/*Form Prestador*/}
+      <Dialog open={formOpen} onOpenChange={handleOpenForm}>
         <DialogContent className={"max-w-2xl! w-full!"}>
           <DialogHeader>
             <DialogTitle className="text-primary-text font-bold text-xl">
-              Cadastrar Prestador
+              {serviceProvider ? "Editar Prestador" : "Cadastrar Prestador"}
             </DialogTitle>
           </DialogHeader>
 
-          <ServiceProviderForm onSubmit={handleSubmit} />
+          <ServiceProviderForm
+            onSubmit={handleSubmit}
+            initialData={serviceProvider}
+          />
         </DialogContent>
       </Dialog>
 
       {/*Alert confirmar delete */}
-      <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+      <AlertDialog open={deleteOpen} onOpenChange={handleOpenForm}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Deseja excluir?</AlertDialogTitle>
-            <AlertDialogDescription></AlertDialogDescription>
           </AlertDialogHeader>
+
+          <AlertDialogDescription>
+            Esta ação não poderá ser desfeita.
+          </AlertDialogDescription>
 
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>

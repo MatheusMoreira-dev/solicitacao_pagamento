@@ -8,6 +8,7 @@ import {
   onSnapshot,
   doc,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 import { db } from "@/services/firebase/config";
@@ -62,4 +63,11 @@ export function listenServiceProviders({ onChange, onError }) {
 export async function deleteServiceProvider(id) {
   const docRef = doc(db, "prestadores", id);
   await deleteDoc(docRef);
+}
+
+export async function updateServiceProvider(id, data) {
+  const docRef = doc(db, "prestadores", id);
+  const payload = { lastUpdate: serverTimestamp(), ...data };
+
+  await updateDoc(docRef, payload);
 }
