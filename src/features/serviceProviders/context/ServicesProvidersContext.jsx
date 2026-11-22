@@ -2,7 +2,8 @@ import { createContext } from "react";
 
 import {
   createServiceProvider,
-  getServiceProviders,
+  listenServiceProviders,
+  deleteServiceProvider,
 } from "../services/serviceProvidersService";
 
 import { useState, useEffect } from "react";
@@ -13,22 +14,19 @@ export function ServicesProvidersProvider({ children }) {
   const [servicesProviders, setServicesProviders] = useState([]);
 
   useEffect(() => {
-    loadServicesProviders();
-  }, []);
+    const unsubscribeServicesProviders = listenServiceProviders({
+      onChange: (data) => setServicesProviders(data),
+      onError: (err) => console.log(err),
+    });
 
-  async function loadServicesProviders() {
-    try {
-      const result = await getServiceProviders();
-      setServicesProviders(result);
-    } catch (error) {
-      console.error("Erro ao carregar prestadores:", error);
-    }
-  }
+    return () => {
+      unsubscribeServicesProviders();
+    };
+  }, []);
 
   async function handleAddServiceProvider(serviceProvider) {
     try {
       await createServiceProvider(serviceProvider);
-      await loadServicesProviders();
     } catch (error) {
       console.error("Erro ao criar prestador:", error);
     }
@@ -36,14 +34,12 @@ export function ServicesProvidersProvider({ children }) {
 
   async function handleUpdateServiceProvider(id, data) {}
 
-  async function handleDeleteServiceProvider(id) {}
-
   return (
     <ServicesProvidersContext.Provider
       value={{
         servicesProviders,
         addServiceProvider: handleAddServiceProvider,
-        deleteServiceProvider: handleDeleteServiceProvider,
+        deleteServiceProvider,
         updateServiceProvider: handleUpdateServiceProvider,
       }}
     >

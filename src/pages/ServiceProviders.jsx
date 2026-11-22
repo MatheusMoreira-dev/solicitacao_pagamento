@@ -14,34 +14,27 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+
 import ServiceProviderForm from "@/features/serviceProviders/components/ServiceProviderForm";
+import { createServiceProvider } from "@/features/serviceProviders/services/serviceProvidersService";
+import { useServicesProviders } from "@/features/serviceProviders/hooks/useServiceProviders";
 import {
-  createServiceProvider,
-  getServiceProviders,
-} from "@/features/serviceProviders/services/serviceProvidersService";
-
-const listServiceProviders = [
-  {
-    razaoSocial: "Fontenele e Bonfim",
-    nomeFantasia: "BSG",
-    cnpj: "122144312545",
-  },
-];
-
-const testeData = new Array(20).fill(listServiceProviders[0]);
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 function ServiceProviders() {
+  const { servicesProviders, deleteServiceProvider } = useServicesProviders();
   const [formOpen, setFormOpen] = useState(false);
-  const [serviceProviders, setServiceProviders] = useState([]);
-
-  useEffect(() => {
-    async function loadServiceProviders() {
-      const result = await getServiceProviders();
-      setServiceProviders(result);
-    }
-
-    loadServiceProviders();
-  }, []);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+  const [itemID, setItemID] = useState(null);
 
   async function handleSubmit(values) {
     try {
@@ -49,6 +42,22 @@ function ServiceProviders() {
       setFormOpen(false);
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  function handleConfirmDelete(id) {
+    setDeleteOpen(true);
+    setItemID(id);
+  }
+
+  async function handleDelete() {
+    try {
+      await deleteServiceProvider(itemID);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setDeleteOpen(false);
+      setItemID(null);
     }
   }
 
@@ -83,7 +92,10 @@ function ServiceProviders() {
         </Button>
       </div>
 
-      <ServiceProvidersPagination serviceProviders={serviceProviders} />
+      <ServiceProvidersPagination
+        serviceProviders={servicesProviders}
+        onDelete={handleConfirmDelete}
+      />
 
       {/*Form Cadastrar Prestador*/}
       <Dialog open={formOpen} onOpenChange={setFormOpen}>
@@ -97,6 +109,23 @@ function ServiceProviders() {
           <ServiceProviderForm onSubmit={handleSubmit} />
         </DialogContent>
       </Dialog>
+
+      {/*Alert confirmar delete */}
+      <AlertDialog open={deleteOpen} onOpenChange={setDeleteOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Deseja excluir?</AlertDialogTitle>
+            <AlertDialogDescription></AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <Button variant="destructive" onClick={handleDelete}>
+              Excluir
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

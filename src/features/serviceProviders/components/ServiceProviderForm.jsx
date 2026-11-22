@@ -1,19 +1,10 @@
 import { Field, FieldLabel } from "@/components/ui/field";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxContent,
-  ComboboxList,
-  ComboboxItem,
-  ComboboxEmpty,
-} from "@/components/ui/combobox";
+
 import { Input } from "@/components/ui/input";
-import MoneyInput from "@/components/MoneyInput";
 import { Button } from "@/components/ui/button";
 import { useForm, Controller } from "react-hook-form";
-import { useEffect } from "react";
-import { formatDate } from "@/services/utils";
+import { useEffect, useState } from "react";
+import { Spinner } from "@/components/ui/spinner";
 
 const emptyValues = {
   razaoSocial: "",
@@ -22,7 +13,6 @@ const emptyValues = {
 };
 
 function ServiceProviderForm({
-  selectOptions = {},
   initialData = emptyValues,
   onSubmit,
   onCancel,
@@ -30,6 +20,8 @@ function ServiceProviderForm({
   const { handleSubmit, control, reset } = useForm({
     defaultValues: emptyValues,
   });
+  const [loading, setLoading] = useState(false);
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   // Adiciona os dados iniciais nos campos do form
   useEffect(() => {
@@ -39,7 +31,16 @@ function ServiceProviderForm({
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(async (data) => {
+        setLoading(true);
+
+        try {
+          await onSubmit(data);
+          await sleep(3000);
+        } finally {
+          setLoading(false);
+        }
+      })}
       className="w-full min-w-0 grid grid-cols-12 gap-4 gap-y-6"
     >
       <Controller
@@ -88,6 +89,7 @@ function ServiceProviderForm({
         </Button>
 
         <Button type="submit" className="w-32">
+          {loading && <Spinner></Spinner>}
           Salvar
         </Button>
       </div>

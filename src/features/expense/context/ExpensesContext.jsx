@@ -22,6 +22,7 @@ export function ExpensesProvider({ children }) {
         setExpenses(data);
         setLoading(false);
       },
+
       onError: (err) => {
         setError(err);
         setLoading(false);

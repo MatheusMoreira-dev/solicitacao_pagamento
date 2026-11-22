@@ -5,9 +5,14 @@ import {
   ItemFooter,
   ItemHeader,
   ItemTitle,
+  ItemActions,
 } from "../../../components/ui/item";
 
-function ServiceProviderItem({ serviceProvider }) {
+import { Button } from "@/components/ui/button";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { FiEdit } from "react-icons/fi";
+
+function ServiceProviderItem({ serviceProvider, onDelete }) {
   let title = serviceProvider?.razaoSocial;
 
   if (serviceProvider?.nomeFantasia)
@@ -23,7 +28,21 @@ function ServiceProviderItem({ serviceProvider }) {
         <ItemDescription>{serviceProvider?.cnpj}</ItemDescription>
       </ItemContent>
 
-      <ItemFooter></ItemFooter>
+      <ItemFooter>
+        <ItemActions className="justify-end w-full">
+          <Button variant="outline" size="icon">
+            <FiEdit />
+          </Button>
+
+          <Button
+            variant="destructive"
+            size="icon"
+            onClick={() => onDelete(serviceProvider.id)}
+          >
+            <FaRegTrashAlt />
+          </Button>
+        </ItemActions>
+      </ItemFooter>
     </Item>
   );
 }
