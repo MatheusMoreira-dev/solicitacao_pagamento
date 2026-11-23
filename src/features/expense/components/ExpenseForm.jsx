@@ -30,12 +30,7 @@ const unidades = [
   { nome: "LAGOA", cnpj: "4" },
 ];
 
-function ExpenseForm({
-  selectOptions = {},
-  initialData = emptyValues,
-  onSubmit,
-  onCancel,
-}) {
+function ExpenseForm({ initialData = emptyValues, onSubmit, onCancel }) {
   const { servicesProviders } = useServicesProviders();
   const { handleSubmit, control, reset } = useForm({
     defaultValues: emptyValues,
@@ -64,8 +59,8 @@ function ExpenseForm({
               {...field}
               value={field.value}
               onValueChange={field.onChange}
-              itemToStringLabel={(prestadores) =>
-                prestadores.razaoSocial + " - " + prestadores.nomeFantasia
+              itemToStringLabel={(item) =>
+                `${item.razaoSocial} - ${item.nomeFantasia ?? ""}`
               }
               items={servicesProviders}
             >
@@ -76,8 +71,8 @@ function ExpenseForm({
                 <ComboboxList>
                   {(item) => (
                     <ComboboxItem key={item.cnpj} value={item}>
-                      {item?.nomeFantasia
-                        ? item.razaoSocial + " - " + item.nomeFantasia
+                      {item.nomeFantasia
+                        ? `${item.razaoSocial} - ${item.nomeFantasia}`
                         : item.razaoSocial}
                     </ComboboxItem>
                   )}

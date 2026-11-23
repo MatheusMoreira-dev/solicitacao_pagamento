@@ -1,6 +1,5 @@
 import { createContext } from "react";
 import {
-  getExpenses,
   createExpense,
   listenExpenses,
 } from "@/features/expense/services/expenseService";
@@ -17,7 +16,7 @@ export function ExpensesProvider({ children }) {
     setLoading(true);
 
     const unsubscribeExpenses = listenExpenses({
-      status: "em_aberto",
+      status: "Em aberto",
       onChange: (data) => {
         setExpenses(data);
         setLoading(false);
@@ -32,17 +31,17 @@ export function ExpensesProvider({ children }) {
     return () => unsubscribeExpenses();
   }, []);
 
-  async function handleAddExpense(expense) {
+  async function addExpense(expense) {
     try {
       await createExpense(expense);
+      return true;
     } catch (error) {
       console.error("Erro ao criar despesa:", error);
+      return false;
     }
   }
 
-  async function handleUpdateExpense(id, data) {}
-
-  async function handleDeleteExpense(id) {}
+  async function editExpense(id, data) {}
 
   return (
     <ExpensesContext.Provider
@@ -50,9 +49,7 @@ export function ExpensesProvider({ children }) {
         expenses,
         loading,
         error,
-        addExpense: handleAddExpense,
-        deleteExpense: handleDeleteExpense,
-        updateExpense: handleUpdateExpense,
+        addExpense: addExpense,
       }}
     >
       {children}
